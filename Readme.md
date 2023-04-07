@@ -13,7 +13,7 @@
 ---
 
 <p align="center"> 
-Web UI extension to share your knowledge and gain fame & wealth 💸
+Web UI extension to share your knowledge and gain creativity!
     <br> 
 </p>
 

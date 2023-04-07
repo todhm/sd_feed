@@ -1,9 +1,43 @@
+## Feed: Real recognize real
+<p align="center">
+ <img  src="assets/feed.png" alt="Filter Images"/>
+ </p>
+
+### Introduction
+- Are you tired of posting your feed on social media and not getting the recognition you deserve? Do you want a platform where all the masters of drawing you can share your feed with best AI Contents maker all over the world with best known extensions called Web-UI.
+
+- Our extension allows you to upload your feed and receive feedback and reputation from other users. You can also browse and discover other people's feed and prompts to get inspired and engage with the community.
+
+### Features
+####Feed sharing: 
+Share your feed with the community and receive reputation based on the feedback you receive from other users.
+ <img  src="assets/share.png" alt="Filter Images"/>
+
+
+#### Prompt browsing: 
+Discover other people's feed and prompts to get inspired and engage with the community.
+ <img  src="assets/pinterest.png" alt="Filter Images"/>
+
+#### Reputation system: 
+Earn reputation points based on the quality of your feed and your engagement with the community.
+ <img  src="assets/potd.png" alt="Filter Images"/>
+
+#### User profiles: 
+Customize your profile with your nickname and bio to showcase your personality and style.
+
+#### User feedback: 
+Receive feedback from other users to improve your feed and grow your reputation.
+
+#### Getting Started
+To start using our WebUI Extension for Reputation-Based Feed Sharing, simply install the extension on your browser and create an account. You can then start uploading your feed and browsing other people's feed and prompts.
+
+#### Feedback and Support
+We are constantly improving our extension based on user feedback, so please let us know if you have any suggestions or issues. You can contact us at 
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="assets/shareandearn.png" alt="Project logo"></a>
+ <img  src="assets/extensions.png" alt="Project logo"></a>
 </p>
 
-<h3 align="center">WebUI AI Community Extension</h3>
 
 <div align="center">
 
@@ -12,31 +46,6 @@
 
 ---
 
-<p align="center"> 
-Web UI extension to share your knowledge and gain fame & wealth 💸
-    <br> 
-</p>
-
-
-## 🧐 About <a name = "about"></a>
-
-We found out that lot of people having trouble sharing their knowledge and creativity.
-We built a WebUI extensions where users can share their pictures with other WebUI users. 
-
-
-
-### How to Use & Features
-- Check to use the settings or Not inside tab
- <img  src="assets/settings.png" alt="Settings Screenshots"/>
-
-- You can search image you needs
- <img  src="assets/filters.png" alt="Filter Images"/>
-
-- You can click like button on image you like or get feedbacks from users.
- <img  src="assets/iulikes.png" alt="Filter Images"/>
-
-- You can also check prompts on each image by other people.
-  <img  src="assets/prompts.png" alt="Filter Images"/>
 
 
 ### Todo & Further Features. 

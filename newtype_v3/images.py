@@ -110,7 +110,7 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
                     else None
                 )
                 data_dict[row] = value
-        img.save('extensions/newtype_v3/temp.png', "PNG", optimize=True)
+        img.save('extensions/sd_feed/temp.png', "PNG", optimize=True)
         img.seek(0)
         _ = requests.post(
             'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/image',
@@ -119,11 +119,11 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
                 'metadata': json.dumps(data_dict, default=dumper)
             },
             files={
-                'upload_file': open('extensions/newtype_v3/temp.png', 'rb')
+                'upload_file': open('extensions/sd_feed/temp.png', 'rb')
             },
             stream=True
         )
-        os.remove('extensions/newtype_v3/temp.png')
+        os.remove('extensions/sd_feed/temp.png')
     except Exception as e:
         print(e)
         pass
@@ -142,7 +142,7 @@ def create_image_from_string(img_string: str, user_id: str):
             data_dict = return_string_dict(text_info)
             data_dict.update(extra_items)
         else:
-            file_loc = 'extensions/newtype_v3/temp.png'
+            file_loc = 'extensions/sd_feed/temp.png'
             img_string = img_string.split(",")[1]
             img = Image.open(BytesIO(base64.b64decode(img_string)))
             img.save(file_loc, "PNG", optimize=True)
@@ -186,13 +186,13 @@ def create_image_to_image_file(
             data_dict = return_string_dict(text_info)
             data_dict.update(extra_items)
         else:
-            file_loc = 'extensions/newtype_v3/temp.png'
+            file_loc = 'extensions/sd_feed/temp.png'
             img_string = img_string.split(",")[1]
             img = Image.open(BytesIO(base64.b64decode(img_string)))
             img.save(file_loc, "PNG", optimize=True)
             img.seek(0)
             remove_image = True
-        origin_loc = 'extensions/newtype_v3/temp2.png'
+        origin_loc = 'extensions/sd_feed/temp2.png'
         original_img_string = original_img_string.split(',')[1]
         img = Image.open(BytesIO(base64.b64decode(original_img_string)))
         img.save(origin_loc, "PNG", optimize=True)
@@ -222,7 +222,7 @@ def create_image_to_image_file(
 
 def create_image_from_img(img: Image, user_id: str, data_dict: Dict):
     try:
-        file_loc = 'extensions/newtype_v3/temp.png'
+        file_loc = 'extensions/sd_feed/temp.png'
         img.save(file_loc, "PNG", optimize=True)
         img.seek(0)
         _ = requests.post(

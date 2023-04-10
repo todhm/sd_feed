@@ -8,7 +8,8 @@ from tempfile import _TemporaryFileWrapper
 
 from modules.images import read_info_from_image
 from newtype_v3.users import create_user
-from newtype_v3.utils.string_utils import return_string_dict, return_file_loc
+from newtype_v3.utils.string_utils import return_string_dict
+from newtype_v3.locs import DEFAULT_LOC
 
 from PIL import Image
 from modules.processing import StableDiffusionProcessing
@@ -110,7 +111,7 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
                     else None
                 )
                 data_dict[row] = value
-        img.save('extensions/sd_feed/temp.png', "PNG", optimize=True)
+        img.save(f'{DEFAULT_LOC}/temp.png', "PNG", optimize=True)
         img.seek(0)
         _ = requests.post(
             'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/image',
@@ -119,11 +120,11 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
                 'metadata': json.dumps(data_dict, default=dumper)
             },
             files={
-                'upload_file': open('extensions/sd_feed/temp.png', 'rb')
+                'upload_file': open(f'{DEFAULT_LOC}/temp.png', 'rb')
             },
             stream=True
         )
-        os.remove('extensions/sd_feed/temp.png')
+        os.remove(f'{DEFAULT_LOC}/temp.png')
     except Exception as e:
         print(e)
         pass
@@ -138,11 +139,11 @@ def create_image_from_string(img_string: str, user_id: str):
                 .replace("%20", ' ')
             )
             img = Image.open(file_loc)
-            text_info, extra_items  = read_info_from_image(img)
+            text_info, extra_items = read_info_from_image(img)
             data_dict = return_string_dict(text_info)
             data_dict.update(extra_items)
         else:
-            file_loc = 'extensions/sd_feed/temp.png'
+            file_loc = f'{DEFAULT_LOC}/temp.png'
             img_string = img_string.split(",")[1]
             img = Image.open(BytesIO(base64.b64decode(img_string)))
             img.save(file_loc, "PNG", optimize=True)
@@ -182,17 +183,17 @@ def create_image_to_image_file(
                 .replace("%20", ' ')
             )
             img = Image.open(file_loc)
-            text_info, extra_items  = read_info_from_image(img)
+            text_info, extra_items = read_info_from_image(img)
             data_dict = return_string_dict(text_info)
             data_dict.update(extra_items)
         else:
-            file_loc = 'extensions/sd_feed/temp.png'
+            file_loc = f'{DEFAULT_LOC}/temp.png'
             img_string = img_string.split(",")[1]
             img = Image.open(BytesIO(base64.b64decode(img_string)))
             img.save(file_loc, "PNG", optimize=True)
             img.seek(0)
             remove_image = True
-        origin_loc = 'extensions/sd_feed/temp2.png'
+        origin_loc = f'{DEFAULT_LOC}/temp2.png'
         original_img_string = original_img_string.split(',')[1]
         img = Image.open(BytesIO(base64.b64decode(original_img_string)))
         img.save(origin_loc, "PNG", optimize=True)
@@ -222,7 +223,7 @@ def create_image_to_image_file(
 
 def create_image_from_img(img: Image, user_id: str, data_dict: Dict):
     try:
-        file_loc = 'extensions/sd_feed/temp.png'
+        file_loc = f'{DEFAULT_LOC}/temp.png'
         img.save(file_loc, "PNG", optimize=True)
         img.seek(0)
         _ = requests.post(

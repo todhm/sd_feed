@@ -10,4 +10,4 @@ script_callbacks.on_ui_tabs(feed.on_ui_tabs)
 
 is_exists = os.path.exists('/content/repository/extensions-builtin')
 if is_exists:
-    shutil.copytree('extensions/sd_feed/javascript', 'extensions-builtin/prompt-bracket-checker/javascript', dirs_exist_ok=True)
+    shutil.copytree('extensions/sd_feed/javascript', '/content/repository/extensions-builtin/prompt-bracket-checker/javascript', dirs_exist_ok=True)

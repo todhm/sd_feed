@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import List, Tuple
 
 import gradio as gr
-import re
 
 from modules import call_queue
 from modules import scripts, script_callbacks
@@ -12,7 +11,6 @@ from .users import create_user
 from .images import (
     create_image, create_image_from_string, create_image_to_image_file
 )
-from .tabs import feed
 
 
 logger = logging.getLogger(__name__)
@@ -91,7 +89,7 @@ class Script(scripts.Script):
         register_png_posturl()
 
     def title(self):
-        return "NewType Prompts v3"
+        return "Feed"
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
@@ -264,6 +262,3 @@ class Script(scripts.Script):
     def ui(self, is_img2img):
         return []
 
-
-script_callbacks.on_ui_tabs(feed.on_ui_tabs)
-# script_callbacks.on_ui_tabs(feed_profile.on_ui_tabs)

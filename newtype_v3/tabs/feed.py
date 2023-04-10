@@ -1,9 +1,6 @@
 import gradio as gr
 
-from modules import call_queue
-
 from newtype_v3.users import create_user
-from newtype_v3.images import create_multiple_file_uploads
 
 
 def on_ui_tabs():
@@ -95,4 +92,4 @@ def on_ui_tabs():
                 with gr.Column():
                     gr.HTML(iframe_html, elem_id="html_id")
                     gr.HTML(vuejs_script, elem_id="vue-elem")
-    return ((newtype_tab, "Feed", "newtype_tab"),)
+        return (newtype_tab, "Feed", "newtype_tab"),

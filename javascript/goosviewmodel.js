@@ -189,7 +189,7 @@ waitForElementToDisplay(
               }catch(e){
               }
               try{
-                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_width')[0].props.value = parseInt(this.metadata['Size-1']);
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_width')[0].props.value = parseFloat(this.metadata['Size-1']);
                 const textWidthList = gradioApp().querySelector( '#txt2img_width' ).getElementsByTagName('input');
                 if(textWidthList&&textWidthList.length> 1){
                   textWidthList[0].value = this.metadata['Size-1'];
@@ -198,7 +198,7 @@ waitForElementToDisplay(
               }catch(e){
               }
               try{
-                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_height')[0].props.value = parseInt(this.metadata['Size-2']);
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_height')[0].props.value = parseFloat(this.metadata['Size-2']);
                 const textWidthList = gradioApp().querySelector( '#txt2img_height' ).getElementsByTagName('input');
                 if(textWidthList&&textWidthList.length> 1){
                   textWidthList[0].value = this.metadata['Size-2'];
@@ -240,12 +240,7 @@ waitForElementToDisplay(
                   }
                 }  
                 try{
-                  try{
-                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hires_steps')[0].props.value = parseInt(this.metadata['Hires steps']);
-                  }catch(e){
-                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hires_steps')[0].props.value = 0;
-                  }
-                  
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hires_steps')[0].props.value = parseInt(this.metadata['Hires steps']);
                   const cfgScaleList = gradioApp().querySelector( '#txt2img_hires_steps' ).getElementsByTagName('input');
                   if(cfgScaleList&&cfgScaleList.length> 1){
                     cfgScaleList[0].value = this.metadata['Hires steps'];
@@ -255,9 +250,8 @@ waitForElementToDisplay(
                   console.log(e);
                   console.log('errorhr0');
                 }
-
                 try{
-                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_scale')[0].props.value = this.metadata['Hires upscale'];
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_scale')[0].props.value = parseFloat(this.metadata['Hires upscale']);
                   const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_scale' ).getElementsByTagName('input');
                   if(cfgScaleList&&cfgScaleList.length> 1){
                     cfgScaleList[0].value = this.metadata['Hires upscale'];
@@ -268,22 +262,30 @@ waitForElementToDisplay(
                   console.log('errorhr');
                 }
                 try{
-                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_x')[0].props.value = this.metadata['Hires resize-1'];
-                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_x' ).getElementsByTagName('input');
-                  if(cfgScaleList&&cfgScaleList.length> 1){
-                    cfgScaleList[0].value = this.metadata['Hires resize-1'];
-                    cfgScaleList[1].value = this.metadata['Hires resize-1'];
+                  const hiresValue1 = parseInt(this.metadata['Hires resize-1']);
+                  console.log(hiresValue1);
+                  if(hiresValue1 && hiresValue1 > 0){
+                      window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_x')[0].props.value = parseInt(this.metadata['Hires resize-1']);
+                    const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_x' ).getElementsByTagName('input');
+                    if(cfgScaleList&&cfgScaleList.length> 1){
+                      cfgScaleList[0].value = this.metadata['Hires resize-1'];
+                      cfgScaleList[1].value = this.metadata['Hires resize-1'];
+                    }
                   }
                 }catch(e){
                   console.log(e);
                   console.log('errorhr2');
                 }
                 try{
-                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_y')[0].props.value = this.metadata['Hires resize-2'];
-                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_y' ).getElementsByTagName('input');
-                  if(cfgScaleList&&cfgScaleList.length> 1){
-                    cfgScaleList[0].value = this.metadata['Hires resize-2'];
-                    cfgScaleList[1].value = this.metadata['Hires resize-2'];
+                  const hiresValue2 = parseInt(this.metadata['Hires resize-2']);
+                  console.log(hiresValue2);
+                  if(hiresValue2 > 0){
+                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_y')[0].props.value = parseInt(this.metadata['Hires resize-2']);
+                    const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_y' ).getElementsByTagName('input');
+                    if(cfgScaleList&&cfgScaleList.length> 1){
+                      cfgScaleList[0].value = this.metadata['Hires resize-2'];
+                      cfgScaleList[1].value = this.metadata['Hires resize-2'];
+                    }
                   }
                 }catch(e){
                   console.log(e);

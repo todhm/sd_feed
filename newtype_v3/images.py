@@ -5,6 +5,7 @@ import re
 import base64
 from io import BytesIO
 from tempfile import _TemporaryFileWrapper
+import traceback
 
 from modules.images import read_info_from_image
 from newtype_v3.users import create_user
@@ -168,7 +169,7 @@ def create_image_from_string(img_string: str, user_id: str):
             pass
         return True
     except Exception as e:
-        print(e)
+        print(e, traceback.format_exc())
         return False
 
 

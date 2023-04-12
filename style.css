@@ -343,6 +343,7 @@ font-size: 14px;
 }
 .prompt-modal-image img{
   max-width:720px;
+  max-height:100vh;
 }
 @media screen and (max-width: 420px) { 
   .prompt-modal-image img{

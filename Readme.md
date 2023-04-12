@@ -9,9 +9,9 @@ A custom extension for AUTOMATIC1111/stable-diffusion-webui.
 - ~~The extension can be installed directly from within the **Extenthin** tab within the Webui.~~
 - You can also install it manually by running the following command from within the webui directory:
 
-git clone https://github.com/todhm/sd_feed.git
+  git clone https://github.com/todhm/sd_feed.git
 
-and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features.
+  and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features.
 
 ### Introduction
 - Our extension allows you to upload your feed and receive feedback and reputation from other users. You can also browse and discover other people's feed and prompts to get inspired and engage with the community.

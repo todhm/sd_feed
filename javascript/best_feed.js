@@ -136,7 +136,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                   }
                   const negativePrompt = gradioApp().querySelector('#txt2img_neg_prompt').getElementsByTagName( 'textarea' );
                   if(negativePrompt&&negativePrompt.length> 0){
-                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_neg_prompt')[0].props.value = this.metadata.prompt;
+                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_neg_prompt')[0].props.value = this.metadata.negative_prompt;
                     negativePrompt[0].value = this.metadata.negative_prompt;
                   }
                   try{

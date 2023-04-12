@@ -31,6 +31,34 @@ def on_ui_tabs():
     <div>
         <div class="product-slider" v-if="imageList.length > 0">
             <div class="pinterest-column-gallery" id="columns">
+                <div v-if="mode=='private'" class="pinterest-column-item">
+                    <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
+                        <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                            <div style="background-color:white;width:80%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                                <div v-if="!loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">
+                                        Please Upload Image
+                                    </div>
+                                    <div style="color:#AFB6BD;font-size:15px;display:flex;justify-content:center;">-or-</div>
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">Click and upload</div>
+                                </div>
+                                <div v-if="loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:center;justify-content:center;">
+                                        Loading Image...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input
+                        id="image-input-file"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        style="display:none;"
+                        @change="uploadImage"
+                    >
+                </div>
                 <template v-for="(imageData, j) in sortedDataList" :key="j">
                 <div  class="pinterest-column-item">
                         <img :src="imageData.url" @click="openModal(imageData)">

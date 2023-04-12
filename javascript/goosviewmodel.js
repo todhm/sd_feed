@@ -95,6 +95,35 @@ waitForElementToDisplay(
                 }
             },
             methods: {
+              async uploadImage(event){
+                this.loading = true;
+                const files = event.target.files;
+                const userId = localStorage.getItem("userId");
+                for (let i=0; i<files.length; i++) {
+                  if(!files[i].type.match(/^image\//)){
+                    alert('이미지 파일만 업로드할 수 있습니다.');
+                  } else if(files[i].size > 50000000) {
+                    alert('You cannot upload file larger than 50MB');
+                  } else {
+                    var body = new FormData();
+                    body.append('upload_file',files[i]);
+                    body.append('userId', userId);
+                    body.append('extractMetadata', true);
+                    try{
+                      await axios({
+                        url: 'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/image',
+                        method: 'post',
+                        withCredentials:true,
+                        data: body,
+                      });
+                    }catch(e){
+                      console.log(e);
+                    }
+                  }
+                }
+                this.setMode('private');
+                this.loading = false;
+              },
               close() {
                 this.$emit('close');
                 this.showModal=false;
@@ -526,7 +555,6 @@ waitForElementToDisplay(
                 this.fetchImages();
               },
               fetchImages(){
-                this.loading = true;
                 if(this.page == -1){
                   this.loading = false;
                   return false;

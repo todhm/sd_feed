@@ -212,6 +212,8 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  cursor: pointer;
+  pointer-events: auto;
 }
 .item-overlay {
   position: absolute;
@@ -261,9 +263,6 @@ body {
 .not-liked-div{
   background: #4B5057
 }
-.already-liked-button{
-  
-}
 #prompt-input{
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -275,6 +274,46 @@ body {
   border-color: skyblue;
   outline: none;
 }
+.btn-write-row{
+  box-sizing: border-box;
+
+/* Auto layout */
+
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+gap: 12px;
+border-radius: 5px;
+
+/* Inside auto layout */
+
+flex: none;
+order: 0;
+flex-grow: 0;
+font-size: 14px;
+
+}
+.btn-cancel{
+
+  width: 66px;
+  height: 30px;
+  border: 1px solid white !important;
+  line-height: 17px !important;
+  text-align: center !important;
+  color: #FFFFFF !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right:10px !important;
+}
+.btn-save{
+  color: #4B5057 !important;
+  background: #888D96 !important;
+  width: 85px !important;
+  height: 30px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
 .prompt-modal{
   position: fixed;
   z-index: 999;
@@ -283,7 +322,108 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: var(--input-background-fill);
+  background: var(--input-background-fill);
+  overflow:scroll;
+}
+.prompt-modal-page{
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.prompt-modal-image{
+	max-width: 720px;
+  margin: auto;
+  flex-basis: 100%;
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  height:100vh;
+  justify-content: center;
+  align-items:center;
+}
+.prompt-modal-image img{
+  max-width:720px;
+}
+@media screen and (max-width: 420px) { 
+  .prompt-modal-image img{
+    height:60vh;
+  }
+  .prompt-modal-image img{
+    max-width:320px;
+  }
+}
+.prompt-modal-sidebar{
+  max-width:400px;
+  flex-basis: 100%;
+  background-color:  rgba(47, 49, 50, 0.8);
+  color: white;
+}
+.modal-sidebar-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color:white;
+  font-weight: 400;
+  font-size: 24.3293px;
+  padding-top:12px;
+  padding-bottom:12px;
+  border: 1px solid #AFB6BD;
+}
+.modal-like-wrapper{
+  width:70px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-writer{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  /* identical to box height */
+  color: #FFFFFF !important;
+}
+.modal-writer-time{
+  font-weight: 300 !important;
+  font-size: 14px !important;
+  /* identical to box height */
+  text-align: right;
+  color: #FFFFFF !important;
+}
+.modal-writer-type{
+  color: white !important;
+  border: 1px solid white;
+  border-radius: 5px !important;
+  background-color: #AFB6BD !important;
+  resize: none !important;
+  overflow: hidden !important;
+  padding: 10px !important;
+  width: 95% !important;
+  min-height: 39.35px !important;
+  transition: height 0.3s ease-in-out !important;
+  margin: 10px !important;
+}
+.write-row-button{
+  display:flex;
+  justify-content: flex-end;
+  width: 95%;
+}
+.big-liked-button-div button{
+  height: 38.73px;
+  color: #FFFFFF !important;
+  left: 5px;
+  top:5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2px 3px;
+  gap: 4px;
+  width: 57.6px;
+  max-width:62px;
+  border-radius: 4.86585px;
+}
+.modal-writer-wrapper-exit{
+  margin-right:10px !important;
 }
 .prompt-modal-content {
   background-color: white;
@@ -310,4 +450,27 @@ body {
   padding: 5px;
   border: 1px solid #ccc;
   color: black !important;
+}
+.prompt-send-to{
+  display:flex;
+  justify-content: center;
+  margin-top:10px;
+}
+.btn-send-to {
+  color: white !important;
+  padding: 14px 20px !important;
+  border: none !important;
+  cursor: pointer !important;
+  margin-bottom:0px !important;
+  border: 1px solid #AFB6BD !important;
+  border-radius: 5px !important;
+}
+
+.btn-send-to-img {
+  right: 20px;
+  margin-right: 20px !important;
+}
+
+.btn-send-to-text {
+  margin-right:10px !important;
 }

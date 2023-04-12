@@ -53,35 +53,86 @@ def on_ui_tabs():
             </div>
         </div>
     </div>
-    <template v-if="showModal">
+    <template v-if="this.showModal">
         <div class="prompt-modal">
-            <div class="prompt-modal-content">
-                <div style="display:flex;justify-content:end;">
-                    <span @click="close" class="prompt-modal-close">&times;</span>
+            <div class="prompt-modal-page">
+                <div class="prompt-modal-image">
+                    <img :src="src" alt="Pretty Image"/>
                 </div>
-                <img :src="metadata.src" alt="Pretty Image">
-                <table class="prompt-modal-table">
-                    <tr>
-                        <td>Model</td>
-                        <td>{{metadata.sd_model}}</td>
-                    </tr>
-                    <tr>
-                        <td>Prompt</td>
-                        <td>{{metadata.prompt}}</td>
-                    </tr>
-                    <tr>
-                        <td>Negative Prompt</td>
-                        <td>{{metadata.negative_prompt}}</td>
-                    </tr>
-                    <tr>
-                        <td>N iters</td>
-                        <td>{{metadata.n_iter}}</td>
-                    </tr>
-                    <tr>
-                        <td>Cfg Scales</td>
-                        <td>{{metadata.cfg_scale}}</td>
-                    </tr>
-                </table>
+                <div class="prompt-modal-sidebar">
+                    <div class="modal-sidebar-header">
+                        <div style="display:flex;">
+                            <div class="modal-like-wrapper">
+                                <template v-if="!currentItem.liked">
+                                    <div class="big-liked-button-div not-liked-div" @click="addToWishList(currentItem)">
+                                        <button class="like-button">👍 {{formatNumber(currentItem.likecount)}}</button>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="big-liked-button-div already-liked-div" @click="deleteWishList(currentItem)">
+                                        <button class="like-button already-liked-button">👍 {{formatNumber(currentItem.likecount)}}</button>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="modal-writer-wrappers">
+                                <div class="modal-writer">By {{currentItem.nickname}}</div>
+                                <div class="modal-writer-time">{{currentItem.created_at}}</div>
+                            </div>
+                        </div>
+                        <div class="modal-writer-wrapper-exit" @click="close()">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+                                <path d="M19.9037 17.8831L27.752 25.7314V27.7998H25.6837L17.8354 19.9514L9.98703 27.7998H7.9187V25.7314L15.767 17.8831L7.9187 10.0348V7.96643H9.98703L17.8354 15.8148L25.6837 7.96643H27.752V10.0348L19.9037 17.8831Z" fill="white"/>
+                                <rect x="1.32679" y="1.37439" width="33.0173" height="33.0173" rx="4.50866" stroke="#0E0E0E" stroke-width="0.982675"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-write-input-wrapper">
+                        <div class="modal-write-input-div">
+                            <textarea v-model="comment" @input="handleTextareaInput" class="modal-writer-type" @focus="makeSaveButtonVisible" placeholder="Type your comment"></textarea>
+                        </div>
+                        <div style="display:flex;justify-content:center;width:100%;">
+                            <div v-if="showCommentWrite" class="write-row-button">
+                                <button class="btn-write-row btn-cancel" @click="hideSaveButtonVisible">Cancel</button>
+                                <button class="btn-write-row btn-save" @click="writeComment()">Comment</button>
+    /                                         </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;border-bottom: 1px solid #AFB6BD;padding-bottom:17px;">
+                        <template v-for="(commentData, j) in comments" :key="j">
+                            <div style="margin-left:10px;margin-right:10px;">
+                                <div style="display:flex;width:100%;margin-bottom:12px;color:white;">
+                                    <div style="margin-right:10px;color:white;font-size:17px;font-weight:700;">{{commentData.user.nickname}}</div>
+                                    <div style="color:white;font-size:12px;font-weight:300;">{{commentData.created_at}}</div>
+                                </div>
+                                <div style="display:flex;width:100%;color:white;">
+                                    <div style="color:white;font-size:13px;">{{commentData.text}}</div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="prompt-send-to">
+                        <button class="btn-send-to btn-send-to-text" @click="this.sendToTextToImage()">Send to t2i</button>
+                        <button class="btn-send-to btn-send-to-img" @click="this.sendToImageToImage()">Send to i2i</button>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <div style="margin-left: 10px;margin-right: 10px;">
+                            <div style="color:white;margin-bottom:12px;">Generation Data</div>
+                            <div style="box-sizing: border-box;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;padding-left:20px;padding-right:20px;padding-top:10px;padding-bottom:10px;border: 1px solid #AFB6BD;border-radius: 5px;color:white;">
+                                <template v-for="(value, key) in metadata">
+                                    <template v-if="/^[A-Z]/.test(key)">
+                                        {{key}}:{{value}},
+                                    </template>
+                                </template>
+                            </div>
+                            <div style="display:flex;justify-content:center;margin-top:20px;">
+                                <button @click="copyClipboard" style="text-align:center;box-sizing: border-box;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;padding-top:10px;padding-bottom:10px;border: 1px solid #AFB6BD;border-radius: 5px;color:white;width:100%;">
+                                <div style="color:white;margin:auto;">Copy Generation Data</div></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </template>

@@ -55,6 +55,7 @@ waitForElementToDisplay(
                     imageList: [],
                     sortedDataList: [],
                     carouselBtnTop: 150,
+                    showCommentWrite: false,
                     modeSelectList: [
                       { name: "Newest", value: "latest" },
                       { name: "Popular", value: "likes" },
@@ -91,13 +92,13 @@ waitForElementToDisplay(
                 }
             },
             openModal(item){
+              this.showModal = true;
               this.currentItem = item;
               this.metadata = item.metadata;
               this.src = item.url;
               this.imageId = item.id;
               this.addImageClick();
               this.fetchComments();
-              this.showModal = true;
             },
             addImageClick(){
               const userId = localStorage.getItem("userId");
@@ -468,11 +469,11 @@ waitForElementToDisplay(
               }
             },
             fetchComments(){
-              var self = this;
               axios.get(
                 `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comments/${this.currentItem.id}`,
               ).then((res)=>{
-                self.comments = res.data;
+                this.comments = res.data;
+                this.$forceUpdate();
               }).catch((e)=>{
                 console.log(e);
               })

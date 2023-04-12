@@ -447,7 +447,6 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comments/${this.currentItem.id}`,
                   ).then((res)=>{
                     self.comments = res.data;
-                    this.showModal = true;
                   }).catch((e)=>{
                     console.log(e);
                   })

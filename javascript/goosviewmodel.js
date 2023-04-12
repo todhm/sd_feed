@@ -77,6 +77,7 @@ waitForElementToDisplay(
                 return {
                     page: 1,
                     loading: false,
+                    uploadLoading: false,
                     imageList: [],
                     sortedDataList: [],
                     carouselBtnTop: 150,
@@ -96,7 +97,7 @@ waitForElementToDisplay(
             },
             methods: {
               async uploadImage(event){
-                this.loading = true;
+                this.uploadLoading = true;
                 const files = event.target.files;
                 const userId = localStorage.getItem("userId");
                 for (let i=0; i<files.length; i++) {
@@ -122,7 +123,7 @@ waitForElementToDisplay(
                   }
                 }
                 this.setMode('private');
-                this.loading = false;
+                this.uploadLoading = false;
               },
               close() {
                 this.$emit('close');
@@ -555,6 +556,7 @@ waitForElementToDisplay(
                 this.fetchImages();
               },
               fetchImages(){
+                this.loading = true;
                 if(this.page == -1){
                   this.loading = false;
                   return false;
@@ -613,7 +615,9 @@ waitForElementToDisplay(
                 }else{
                   listElem = document.getElementsByTagName("gradio-app")[0].shadowRoot.getElementById("columns");
                 }
-                if(listElem.clientHeight * 0.9 <= window.scrollY  && self.loading == false && self.page > 0) {
+                const tabElem = gradioApp().querySelector("#tab_newtype_tab");
+                const tabNotVisible = tabElem && tabElem.style && tabElem.style.display && tabElem.style.display == 'none';
+                if(listElem.clientHeight * 0.9 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
                   self.page = self.page + 1;
                   self.fetchImages();
                 }

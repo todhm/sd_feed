@@ -35,14 +35,14 @@ def on_ui_tabs():
                     <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
                         <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
                             <div style="background-color:white;width:80%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
-                                <div v-if="!loading">
+                                <div v-if="!uploadLoading">
                                     <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">
                                         Please Upload Image
                                     </div>
                                     <div style="color:#AFB6BD;font-size:15px;display:flex;justify-content:center;">-or-</div>
                                     <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">Click and upload</div>
                                 </div>
-                                <div v-if="loading">
+                                <div v-if="uploadLoading">
                                     <div style="color:#AFB6BD;font-size:18px;display:center;justify-content:center;">
                                         Loading Image...
                                     </div>

@@ -3,18 +3,22 @@
  <img  src="assets/feed.png" alt="Filter Images"/>
  </p>
 
-A custom extension for AUTOMATIC1111/stable-diffusion-webui.
+- This is a custom extension for AUTOMATIC1111/stable-diffusion-webui.
 
-### Intallation
-- ~~The extension can be installed directly from within the **Extenthin** tab within the Webui.~~
+### Installation
+- ~~The extension can be installed directly from within the **Extension** tab within the Webui.~~
 - You can also install it manually by running the following command from within the webui directory:
 
   git clone https://github.com/todhm/sd_feed.git
 
-  and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features.
+  and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features on txt2img tab and img2img tab.
 
 ### Introduction
-- Our extension allows you to upload your feed and receive feedback and reputation from other users. You can also browse and discover other people's feed and prompts to get inspired and engage with the community.
+- You can upload your **masterpiece** on the Feed Tap. 
+- You can press the recommend button on the photos created by others.
+- You can see **Pics Of The Day**(POTD) which is most recommended today. 
+- You can easily check the generation data of your favorite photos.
+- You can easily Send your favorite photos to t2i or i2i.
 
 ### Features
 ####Feed sharing: 

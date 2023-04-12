@@ -6,7 +6,7 @@
 - This is a custom extension for AUTOMATIC1111/stable-diffusion-webui.
 
 ### Installation
-- ~~The extension can be installed directly from within the **Extension** tab within the Webui.~~(not yet)
+- The extension can be installed directly from within the **Extension** tab within the Webui.
 - You can also install it manually by running the following command from within the webui directory:
 
   git clone https://github.com/todhm/sd_feed.git
@@ -23,7 +23,7 @@
 ### Features
 #### Feed sharing: 
 Share your feed with the community and receive reputation based on the feedback you receive from other users.
- <img  src="assets/share.png" alt="Filter Images"/>
+ <img  src="assets/feedsetting1.png" alt="Filter Images"/>
 
 
 #### Prompt browsing: 

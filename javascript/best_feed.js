@@ -20,6 +20,31 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
   waitForElementToDisplay2(
     "#best-product-tab",
     function(){
+        async function copyToClipboard(textToCopy) {
+          // Navigator clipboard api needs a secure context (https)
+          if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(textToCopy);
+          } else {
+              // Use the 'out of viewport hidden text area' trick
+              const textArea = document.createElement("textarea");
+              textArea.value = textToCopy;
+                  
+              // Move textarea out of the viewport so it's not visible
+              textArea.style.position = "absolute";
+              textArea.style.left = "-999999px";
+                  
+              document.body.prepend(textArea);
+              textArea.select();
+      
+              try {
+                  document.execCommand('copy');
+              } catch (error) {
+                  console.error(error);
+              } finally {
+                  textArea.remove();
+              }
+          };
+      }
         const userModel = {
             data() {
                 return {
@@ -103,6 +128,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                       console.log(error)
                   })
                 },
+                
                 copyClipboard(){
                   const userId = localStorage.getItem("userId");
                   const imageId = this.imageId;
@@ -115,13 +141,13 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                       }
                       )
                   .then(response => {
-                    const filteredObject = {};
+                    let filteredObject = '';
                     for (const [k, v] of Object.entries(this.metadata)) {
                       if (/^[A-Z]/.test(k)) {
-                        filteredObject[k] = v;
+                        filteredObject += `${k}:${v},`;
                       }
                     }
-                    navigator.clipboard.writeText(JSON.stringify(filteredObject));
+                    copyToClipboard(filteredObject);
                   }).catch(error => {
                       this.loading = false;
                       console.log(error)
@@ -418,6 +444,9 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 hideSaveButtonVisible(){
                   this.comment = '';
                   this.showCommentWrite = false;
+                  const textArea = gradioApp().querySelector("#modal-writer-type");
+                  textArea.style.height = 'auto';
+                  textArea.style.height = (textarea.scrollHeight) + 'px';
                 },
                 writeComment(){
                   if(this.comment.length > 0){
@@ -454,7 +483,6 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
             },
             computed:{
               isModalOpen(){
-                console.log('aaa');
                 return this.showModal;
               },
             },
@@ -481,3 +509,4 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
         }
         console.log('mount success');
     },1000,9000);
+

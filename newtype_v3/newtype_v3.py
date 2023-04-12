@@ -171,7 +171,7 @@ class Script(scripts.Script):
                                     </div>
                                     <div class="modal-write-input-wrapper">
                                         <div class="modal-write-input-div">
-                                            <textarea v-model="comment" @input="handleTextareaInput" class="modal-writer-type" @focus="makeSaveButtonVisible" placeholder="Type your comment"></textarea>
+                                            <textarea v-model="comment" @input="handleTextareaInput" id="modal-writer-type" class="modal-writer-type" @focus="makeSaveButtonVisible" placeholder="Type your comment"></textarea>
                                         </div>
                                         <div style="display:flex;justify-content:center;width:100%;">
                                             <div v-if="showCommentWrite" class="write-row-button">

@@ -80,6 +80,36 @@ def on_ui_tabs():
                 </template>
             </div>
         </div>
+         <div style="display:flex;justify-content:center;max-width:420px;" v-if="imageList.length == 0 & mode=='private'">
+                <div style="width:100%;">
+                    <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
+                        <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                            <div style="background-color:white;width:80%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                                <div v-if="!loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">
+                                        Please Upload Image
+                                    </div>
+                                    <div style="color:#AFB6BD;font-size:15px;display:flex;justify-content:center;">-or-</div>
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">Click and upload</div>
+                                </div>
+                                <div v-if="loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:center;justify-content:center;">
+                                        Loading Image...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input
+                        id="image-input-file"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        style="display:none;"
+                        @change="uploadImage"
+                    >
+                </div>
+         </div>
     </div>
     <template v-if="this.showModal">
         <div class="prompt-modal">

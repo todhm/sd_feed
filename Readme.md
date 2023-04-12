@@ -1,11 +1,14 @@
-## Feed: Real recognize real
+## stable-diffusion-webui-feed-extension
 <p align="center">
  <img  src="assets/feed.png" alt="Filter Images"/>
  </p>
 
-### Introduction
-- Are you tired of posting your feed on social media and not getting the recognition you deserve? Do you want a platform where all the masters of drawing you can share your feed with best AI Contents maker all over the world with best known extensions called Web-UI.
+A custom extension for AUTOMATIC1111/stable-diffusion-webui.
 
+### Intallation
+- 
+- 
+### Introduction
 - Our extension allows you to upload your feed and receive feedback and reputation from other users. You can also browse and discover other people's feed and prompts to get inspired and engage with the community.
 
 ### Features

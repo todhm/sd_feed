@@ -39,6 +39,7 @@ const reorderData=(arr, columns)=>{
   }
   return out;
 }
+
 addScript('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
 addScript('https://unpkg.com/vue@3.2.6/dist/vue.global.prod.js');
 
@@ -72,7 +73,15 @@ waitForElementToDisplay(
                 this.$emit('close');
                 this.showModal=false;
               },
-              formatNumber(num) {
+              close() {
+                this.$emit('close');
+                this.showModal=false;
+                this.imageId = "";
+                this.src = "";
+                this.comment = '';
+                this.comments = [];
+            },
+            formatNumber(num) {
                 if (num >= 1000000) {
                   return (num / 1000000).toFixed(1) + 'm';
                 } else if (num >= 1000) {
@@ -80,8 +89,324 @@ waitForElementToDisplay(
                 } else {
                   return num.toString();
                 }
-              },
-              addToWishList(item){
+            },
+            openModal(item){
+              this.currentItem = item;
+              this.metadata = item.metadata;
+              this.src = item.url;
+              this.imageId = item.id;
+              this.addImageClick();
+              this.fetchComments();
+              this.showModal = true;
+            },
+            addImageClick(){
+              const userId = localStorage.getItem("userId");
+              const imageId = this.imageId;
+              axios.post(
+                  'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/click',
+                  {
+                    userId,
+                    imageId,
+                  }
+                  )
+              .then(response => {
+                
+              }).catch(error => {
+                  this.loading = false;
+                  console.log(error)
+              })
+            },
+            sendToTextToImage(){
+              const userId = localStorage.getItem("userId");
+              const imageId = this.imageId;
+              axios.post(
+                  'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
+                  {
+                    userId,
+                    imageId,
+                    sendType: "SEND_TO_TEXT",
+                  }
+                  )
+              .then(response => {
+                this.sendToTextProcess();
+              }).catch(error => {
+                  this.loading = false;
+                  console.log(error)
+              })
+            },
+            copyClipboard(){
+              const userId = localStorage.getItem("userId");
+              const imageId = this.imageId;
+              axios.post(
+                  'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
+                  {
+                    userId,
+                    imageId,
+                    sendType: "COPY_TO_CLIPBOARD",
+                  }
+                  )
+              .then(response => {
+                const filteredObject = {};
+                for (const [k, v] of Object.entries(this.metadata)) {
+                  if (/^[A-Z]/.test(k)) {
+                    filteredObject[k] = v;
+                  }
+                }
+                navigator.clipboard.writeText(JSON.stringify(filteredObject));
+              }).catch(error => {
+                  this.loading = false;
+                  console.log(error)
+              });
+
+            },
+            sendToTextProcess(){
+              const textPrompt = gradioApp().querySelector('#txt2img_prompt').getElementsByTagName( 'textarea' );
+              if(textPrompt&&textPrompt.length> 0){
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_prompt')[0].props.value = this.metadata.prompt;
+                textPrompt[0].value = this.metadata.prompt;
+              }
+              const negativePrompt = gradioApp().querySelector('#txt2img_neg_prompt').getElementsByTagName( 'textarea' );
+              if(negativePrompt&&negativePrompt.length> 0){
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_neg_prompt')[0].props.value = this.metadata.prompt;
+                negativePrompt[0].value = this.metadata.negative_prompt;
+              }
+              try{
+                const samplerList = gradioApp().querySelector( '#txt2img_sampling' ).getElementsByTagName('span');
+                if(samplerList&&samplerList.length> 1){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_sampling')[0].props.value = this.metadata.sampler;
+                  samplerList[1].textContent = this.metadata.sampler;
+                }
+              }catch(e){
+              }
+
+              try{
+                const textImageStepsList = gradioApp().querySelector( '#txt2img_steps' ).getElementsByTagName('input');
+                if(textImageStepsList&&textImageStepsList.length> 1){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_steps')[0].props.value = parseInt(this.metadata.n_iter);
+                  textImageStepsList[0].value = this.metadata.n_iter;
+                  textImageStepsList[1].value = this.metadata.n_iter;
+                }
+              }catch(e){
+              }
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_width')[0].props.value = parseInt(this.metadata['Size-1']);
+                const textWidthList = gradioApp().querySelector( '#txt2img_width' ).getElementsByTagName('input');
+                if(textWidthList&&textWidthList.length> 1){
+                  textWidthList[0].value = this.metadata['Size-1'];
+                  textWidthList[1].value = this.metadata['Size-1'];
+                }
+              }catch(e){
+              }
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_height')[0].props.value = parseInt(this.metadata['Size-2']);
+                const textWidthList = gradioApp().querySelector( '#txt2img_height' ).getElementsByTagName('input');
+                if(textWidthList&&textWidthList.length> 1){
+                  textWidthList[0].value = this.metadata['Size-2'];
+                  textWidthList[1].value = this.metadata['Size-2'];
+                }
+              }catch(e){
+              }
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_cfg_scale')[0].props.value = parseFloat(this.metadata['cfg_scale']);
+                const cfgScaleList = gradioApp().querySelector( '#txt2img_cfg_scale' ).getElementsByTagName('input');
+                if(cfgScaleList&&cfgScaleList.length> 1){
+                  cfgScaleList[0].value = this.metadata['cfg_scale'];
+                  cfgScaleList[1].value = this.metadata['cfg_scale'];
+                }
+              }catch(e){
+              }
+              try{
+                const steps = this.metadata['Hires upscaler'];
+                if(steps){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_enable_hr')[0].props.value = true;
+                  gradioApp().querySelector( '#txt2img_enable_hr' ).getElementsByTagName('input')[0].checked = true;
+                  try{
+                    const originalHires = gradioApp().querySelector( '#txt2img_hires_fix' );
+                    originalHires.classList.remove('hidden');
+                  }catch(e){
+                    
+                  }
+                  const scalerMethod = this.metadata['Hires upscaler'];
+                  const containUpscaler = window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_upscaler')[0].props.choices.includes(scalerMethod);
+                  if(containUpscaler){
+                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_upscaler')[0].props.value = this.metadata['Hires upscaler'];
+                    const hr_span = gradioApp().querySelector( '#txt2img_hr_upscaler' ).getElementsByTagName('span');
+                    hr_span[0].textContent = this.metadata['Hires upscaler'];
+
+                    const cfgScaleList = gradioApp().querySelector( '#txt2img_enable_hr' ).getElementsByTagName('input');
+                  if(cfgScaleList&&cfgScaleList.length> 1){
+                    cfgScaleList[0].value = this.metadata['cfg_scale'];
+                    cfgScaleList[1].value = this.metadata['cfg_scale'];
+                  }
+                }  
+                try{
+                  try{
+                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hires_steps')[0].props.value = parseInt(this.metadata['Hires steps']);
+                  }catch(e){
+                    window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hires_steps')[0].props.value = 0;
+                  }
+                  
+                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hires_steps' ).getElementsByTagName('input');
+                  if(cfgScaleList&&cfgScaleList.length> 1){
+                    cfgScaleList[0].value = this.metadata['Hires steps'];
+                    cfgScaleList[1].value = this.metadata['Hires steps'];
+                  }
+                }catch(e){
+                  console.log(e);
+                  console.log('errorhr0');
+                }
+
+                try{
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_scale')[0].props.value = this.metadata['Hires upscale'];
+                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_scale' ).getElementsByTagName('input');
+                  if(cfgScaleList&&cfgScaleList.length> 1){
+                    cfgScaleList[0].value = this.metadata['Hires upscale'];
+                    cfgScaleList[1].value = this.metadata['Hires upscale'];
+                  }
+                }catch(e){
+                  console.log(e);
+                  console.log('errorhr');
+                }
+                try{
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_x')[0].props.value = this.metadata['Hires resize-1'];
+                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_x' ).getElementsByTagName('input');
+                  if(cfgScaleList&&cfgScaleList.length> 1){
+                    cfgScaleList[0].value = this.metadata['Hires resize-1'];
+                    cfgScaleList[1].value = this.metadata['Hires resize-1'];
+                  }
+                }catch(e){
+                  console.log(e);
+                  console.log('errorhr2');
+                }
+                try{
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='txt2img_hr_resize_y')[0].props.value = this.metadata['Hires resize-2'];
+                  const cfgScaleList = gradioApp().querySelector( '#txt2img_hr_resize_y' ).getElementsByTagName('input');
+                  if(cfgScaleList&&cfgScaleList.length> 1){
+                    cfgScaleList[0].value = this.metadata['Hires resize-2'];
+                    cfgScaleList[1].value = this.metadata['Hires resize-2'];
+                  }
+                }catch(e){
+                  console.log(e);
+                  console.log('errorhr3');
+                }
+                }
+              
+                
+
+              }catch(e){
+                console.log(e);
+                console.log('errorhr4');
+              }
+              this.close();
+              switch_to_txt2img();
+            },
+            sendToImageToImage(){
+              const userId = localStorage.getItem("userId");
+              const imageId = this.imageId;
+              axios.post(
+                  'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
+                  {
+                    userId,
+                    imageId,
+                    sendType: "SEND_TO_IMAGE",
+                  }
+                  )
+              .then(response => {
+                var xhr = new XMLHttpRequest();
+                var self = this;
+                xhr.onload = function() {
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                      self.sendToImageToImageProcess(reader.result);
+                    }
+                    reader.readAsDataURL(xhr.response);
+                };
+                xhr.open('GET', this.src);
+                xhr.responseType = 'blob';
+                xhr.send();
+                
+              }).catch(error => {
+                  this.loading = false;
+                  console.log(error)
+              })
+            },
+            sendToImageToImageProcess(date64Image){
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_image')[0].props.value = date64Image;
+              }catch(e){
+
+              }
+              try{
+                const textPrompt = gradioApp().querySelector('#img2img_prompt').getElementsByTagName( 'textarea' );
+                if(textPrompt&&textPrompt.length> 0){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_prompt')[0].props.value = this.metadata.prompt;
+                  textPrompt[0].value = this.metadata.prompt;
+                }
+              }catch(e){
+                console.log('Error prompt img2img');
+                console.log(e);
+
+              }
+              try{
+                const negativePrompt = gradioApp().querySelector('#img2img_neg_prompt').getElementsByTagName( 'textarea' );
+                if(negativePrompt&&negativePrompt.length> 0){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_neg_prompt')[0].props.value = this.metadata.negative_prompt;
+                  negativePrompt[0].value = this.metadata.negative_prompt;
+                }
+              }catch(e){
+                console.log('Error neg img2img');
+                console.log(e);
+
+              }
+              
+              
+              try{
+                const samplerList = gradioApp().querySelector( '#img2img_sampling' ).getElementsByTagName('span');
+                if(samplerList&&samplerList.length> 1){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_sampling')[0].props.value = this.metadata.sampler;
+                  samplerList[1].textContent = this.metadata.sampler;
+                }
+              }catch(e){
+              }
+
+              try{
+                const textImageStepsList = gradioApp().querySelector( '#img2img_steps' ).getElementsByTagName('input');
+                if(textImageStepsList&&textImageStepsList.length> 1){
+                  window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_steps')[0].props.value = parseInt(this.metadata.n_iter);
+                  textImageStepsList[0].value = this.metadata.n_iter;
+                  textImageStepsList[1].value = this.metadata.n_iter;
+                }
+              }catch(e){
+                console.log('Error steps img2img');
+                console.log(e);
+
+              }
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_width')[0].props.value = parseInt(this.metadata['Size-1']);
+                const textWidthList = gradioApp().querySelector( '#img2img_width' ).getElementsByTagName('input');
+                if(textWidthList&&textWidthList.length> 1){
+                  textWidthList[0].value = this.metadata['Size-1'];
+                  textWidthList[1].value = this.metadata['Size-1'];
+                }
+              }catch(e){
+                console.log('Error width img2img');
+                console.log(e);
+              }
+              try{
+                window.gradio_config.components.filter(el=>el.props.elem_id=='img2img_height')[0].props.value = parseInt(this.metadata['Size-2']);
+                const textWidthList = gradioApp().querySelector( '#img2img_height' ).getElementsByTagName('input');
+                if(textWidthList&&textWidthList.length> 1){
+                  textWidthList[0].value = this.metadata['Size-2'];
+                  textWidthList[1].value = this.metadata['Size-2'];
+                }
+              }catch(e){
+                console.log('Error width height2img');
+                console.log(e);
+              }
+              this.close();
+              switch_to_img2img();
+            },
+            addToWishList(item){
                 const userId = localStorage.getItem("userId");
                 item.liked = true;
                 item.likecount = item.likecount + 1;
@@ -92,25 +417,64 @@ waitForElementToDisplay(
                     imageId: item.id,
                   }, 
                 )
-              },
-              openModal(item){
-                this.metadata = item.metadata;
-                this.metadata.src = item.url;
-                this.showModal = true;
-              },
-              deleteWishList(item){
+            },
+            handleTextareaInput(event) {
+              let textarea = event.target;
+              textarea.style.height = 'auto';
+              textarea.style.height = (textarea.scrollHeight) + 'px';
+              comment = event.target.text;
+            },
+            deleteWishList(item){
+              const userId = localStorage.getItem("userId");
+              item.liked = false;
+              item.likecount = item.likecount -1 ;
+              axios.delete(
+                `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/like`,
+                {data: {
+                  userId, 
+                  imageId: item.id,
+                }}, 
+              )
+            },
+            makeSaveButtonVisible(){
+              this.showCommentWrite = true;
+            },
+            hideSaveButtonVisible(){
+              this.comment = '';
+              this.showCommentWrite = false;
+            },
+            writeComment(){
+              if(this.comment.length > 0){
                 const userId = localStorage.getItem("userId");
-                item.liked = false;
-                item.likecount = item.likecount -1 ;
-                axios.delete(
-                  `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/like`,
-                  {data: {
+                axios.post(
+                  `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comment`,
+                  {
                     userId, 
-                    imageId: item.id,
-                  }}, 
-                )
+                    imageId: this.currentItem.id,
+                    text: this.comment,
+                  }, 
+                ).then((res)=>{
+                  this.fetchComments();
+                  this.showCommentWrite = false;
+                  this.comment = '';
+                }).catch((e)=>{
+                  console.log(e);
+                });
 
-              },
+              }else{
+                return false;
+              }
+            },
+            fetchComments(){
+              var self = this;
+              axios.get(
+                `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comments/${this.currentItem.id}`,
+              ).then((res)=>{
+                self.comments = res.data;
+              }).catch((e)=>{
+                console.log(e);
+              })
+            },
               setOrder(event){
                 this.page = 1;
                 this.order = event.target.value;

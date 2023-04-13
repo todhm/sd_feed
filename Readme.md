@@ -22,18 +22,30 @@
 
 ### Features
 #### Upload Your Masterpiece! 
-Share your images with the community and receive reputation based on the feedback you receive from other users.
  <img  src="assets/feedsetting1.png" alt="Filter Images"/>
+Upload your image right after generation!
 
+### Feed
+ <img  src="assets/5ulvww8bblta1.webp" alt="Filter Images"/>
+Browse People's images!
 
-#### Browse images!: 
-Discover other people's feed and prompts to get inspired and engage with the community.
- <img  src="assets/pinterest.png" alt="Filter Images"/>
+there are four feeds
+- newest : pics of all over the world
+- popular : pics what people like
+- favorite : pics that you pushed like button
+- my pics : that you uploaded
 
-#### Be selected for Pics of the Day!(POTD)
-Earn reputation points based on the quality of your feed and your engagement with the community.
+### Tweak!
+ <img  src="assets/lhijrt5lblta1.webp" alt="Filter Images"/>
+Check the parameters and generate your own!
+
+You can easily send to t2i,i2i or Copy the Generation data and also communicate!
+
+### Pics Of The Day!📷
  <img  src="assets/potd.png" alt="Filter Images"/>
+you can be the king of the day!
 
+most popular pic of the day will be exhibited on generation tab!
 
 
 #### Getting Started

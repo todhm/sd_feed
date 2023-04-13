@@ -19,8 +19,6 @@ loaded_count = 0
 
 base_dir = Path(scripts.basedir())
 all_btns: List[Tuple[gr.Button, ...]] = []
-share_image: bool = False
-
 
 def set_share_image(x):
     global share_image
@@ -103,7 +101,6 @@ class Script(scripts.Script):
         return p
 
     def after_component(self, component, **kwargs):
-        global share_image
         if isinstance(component, gr.HTML):
             if component.elem_id in {'html_info_txt2img'}:
                 view_html = '''
@@ -271,7 +268,6 @@ class Script(scripts.Script):
                             outputs=[txt_to_txt_result],
                             show_progress=True,
                         )
-
             if component.elem_id in {'img2img_gallery'}:
                 with gr.Accordion('Feed Settings', open=True):
                     with gr.Column():

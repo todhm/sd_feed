@@ -2,9 +2,10 @@ import os
 from modules import script_callbacks
 from newtype_v3.tabs import feed
 from newtype_v3.locs import is_exists, is_exists_seconds
+from newtype_v3.newtype_v3 import Script
 import shutil
 
-
+__all__ = ["Script"]
 script_callbacks.on_ui_tabs(feed.on_ui_tabs)
 
 

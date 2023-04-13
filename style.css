@@ -371,7 +371,8 @@ font-size: 14px;
   border: 1px solid #AFB6BD;
 }
 .modal-like-wrapper{
-  width:70px;
+  min-width:70px;
+  max-width:100px;
   display:flex;
   align-items: center;
   justify-content: center;

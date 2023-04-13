@@ -9,6 +9,11 @@ body {
   margin: 50px auto;
   column-gap: 4px;
 }
+@media screen and  (max-width: 820px){ 
+  #columns {
+    column-count: 2 !important;
+  }
+}
  
  
  @media screen and (max-width: 750px) { 
@@ -196,6 +201,11 @@ body {
   margin-bottom: 20px;
   box-sizing: border-box;
   position: relative;
+}
+@media screen and  (max-width: 1380px){ 
+  .pinterest-item{
+    width: calc(50% - 3px) !important;
+  }
 }
 .pinterest-column-item{
   width:100%;

@@ -28,7 +28,8 @@ def set_share_image(x):
 
 
 def save_files(image_file: str, outer_html) -> List[str]:
-    userId = create_user()
+    user_dict = create_user()
+    userId = user_dict.get('userId') 
     result = create_image_from_string(
         image_file,
         userId,
@@ -42,11 +43,14 @@ def save_files(image_file: str, outer_html) -> List[str]:
 def save_imgto_img_file(
     image_file: str, original_img_string: str, outer_html: str
 ):
-    userId = create_user()
+    user_dict = create_user()
+    userId = user_dict.get('userId')
+    token = user_dict.get('token', '') 
     result = create_image_to_image_file(
         image_file,
         original_img_string,
-        userId
+        userId,
+        token=token
     )
     result_string = "Success" if result else "Failed"
     return [result_string]
@@ -57,12 +61,14 @@ def register_png_posturl() -> None:
         try:
             global share_image
             if share_image:
-                userId = create_user()
+                user_dict = create_user()
+                userId = user_dict.get('userId') 
                 create_image(
                     image_save_params.image, 
                     userId,
                     image_save_params.p,
-                    info=image_save_params.pnginfo.get("parameters") if image_save_params.pnginfo else None
+                    info=image_save_params.pnginfo.get("parameters") if image_save_params.pnginfo else None,
+                    token=user_dict.get('token', ''),
                 )
         except Exception:
             logger.exception("Error save data")
@@ -105,7 +111,7 @@ class Script(scripts.Script):
     def after_component(self, component, **kwargs):
         if isinstance(component, gr.HTML):
             if component.elem_id in {'html_info_txt2img'}:
-                with open(f'{DEFAULT_LOC}/html/potd.html') as f:
+                with open(f'{DEFAULT_LOC}/html/potd.html', encoding='utf-8') as f:
                     gr.HTML(
                         f.read(), 
                         elem_id="best-product-tab", 
@@ -119,7 +125,7 @@ class Script(scripts.Script):
                             save = gr.Button(
                                 'Share', elem_id='save_txt2_image'
                             )
-                            with open(f'{DEFAULT_LOC}/html/profile.html') as f:
+                            with open(f'{DEFAULT_LOC}/html/profile.html', encoding='utf-8') as f:
                                 gr.HTML(f.read(), elem_id="feed-profile-tab")
                         # JS에서 브라우저에있는데이터를 save_files함수로 전송
                         js_string = """(a)=>{
@@ -172,4 +178,3 @@ class Script(scripts.Script):
 
     def ui(self, is_img2img):
         return []
-

@@ -110,12 +110,15 @@ waitForElementToDisplay(
                     body.append('upload_file',files[i]);
                     body.append('userId', userId);
                     body.append('extractMetadata', true);
+                    const token = localStorage.getItem("token");
+                    const headers={"Authorization":"Token " + token};
                     try{
                       await axios({
                         url: 'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/image',
                         method: 'post',
                         withCredentials:true,
                         data: body,
+                        headers
                       });
                     }catch(e){
                       console.log(e);
@@ -152,17 +155,23 @@ waitForElementToDisplay(
               this.metadata = item.metadata;
               this.src = item.url;
               this.imageId = item.id;
+              item.total_clicks += 1;
               this.addImageClick();
               this.fetchComments();
             },
             addImageClick(){
               const userId = localStorage.getItem("userId");
               const imageId = this.imageId;
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
               axios.post(
                   'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/click',
                   {
                     userId,
                     imageId,
+                  },
+                  {
+                    headers
                   }
                   )
               .then(response => {
@@ -175,12 +184,17 @@ waitForElementToDisplay(
             sendToTextToImage(){
               const userId = localStorage.getItem("userId");
               const imageId = this.imageId;
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
+              this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
               axios.post(
                   'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                   {
                     userId,
                     imageId,
                     sendType: "SEND_TO_TEXT",
+                  },{
+                    headers
                   }
                   )
               .then(response => {
@@ -193,12 +207,16 @@ waitForElementToDisplay(
             copyClipboard(){
               const userId = localStorage.getItem("userId");
               const imageId = this.imageId;
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
               axios.post(
                   'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                   {
                     userId,
                     imageId,
                     sendType: "COPY_TO_CLIPBOARD",
+                  },{
+                    headers
                   }
                   )
               .then(response => {
@@ -208,6 +226,7 @@ waitForElementToDisplay(
                     filteredObject += `${k}:${v},`;
                   }
                 }
+                this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
                 copyToClipboard(filteredObject);
               }).catch(error => {
                   this.loading = false;
@@ -361,14 +380,18 @@ waitForElementToDisplay(
             sendToImageToImage(){
               const userId = localStorage.getItem("userId");
               const imageId = this.imageId;
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
               axios.post(
                   'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                   {
                     userId,
                     imageId,
                     sendType: "SEND_TO_IMAGE",
+                  },{
+                    headers
                   }
-                  )
+              )
               .then(response => {
                 var xhr = new XMLHttpRequest();
                 var self = this;
@@ -382,6 +405,7 @@ waitForElementToDisplay(
                 xhr.open('GET', this.src);
                 xhr.responseType = 'blob';
                 xhr.send();
+                this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
                 
               }).catch(error => {
                   this.loading = false;
@@ -466,6 +490,8 @@ waitForElementToDisplay(
             },
             addToWishList(item){
                 const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
                 item.liked = true;
                 item.likecount = item.likecount + 1;
                 axios.post(
@@ -474,6 +500,9 @@ waitForElementToDisplay(
                     userId, 
                     imageId: item.id,
                   }, 
+                  {
+                    headers
+                  }
                 )
             },
             handleTextareaInput(event) {
@@ -486,12 +515,16 @@ waitForElementToDisplay(
               const userId = localStorage.getItem("userId");
               item.liked = false;
               item.likecount = item.likecount -1 ;
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
               axios.delete(
                 `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/like`,
                 {data: {
                   userId, 
                   imageId: item.id,
-                }}, 
+                },
+                headers
+              }, 
               )
             },
             makeSaveButtonVisible(){
@@ -507,17 +540,22 @@ waitForElementToDisplay(
             writeComment(){
               if(this.comment.length > 0){
                 const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
                 axios.post(
                   `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comment`,
                   {
                     userId, 
                     imageId: this.currentItem.id,
                     text: this.comment,
-                  }, 
+                  },{
+                    headers
+                  } 
                 ).then((res)=>{
                   this.fetchComments();
                   this.showCommentWrite = false;
                   this.comment = '';
+                  this.currentItem.total_comments = this.currentItem.total_comments + 1;
                 }).catch((e)=>{
                   console.log(e);
                 });
@@ -527,8 +565,13 @@ waitForElementToDisplay(
               }
             },
             fetchComments(){
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
               axios.get(
                 `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comments/${this.currentItem.id}`,
+                {
+                  headers
+                }
               ).then((res)=>{
                 this.comments = res.data;
                 this.$forceUpdate();
@@ -581,10 +624,12 @@ waitForElementToDisplay(
                   defaultParams['only_my_pictures'] = true;
                   defaultParams['order'] = 'created_at';
                 }
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
 
                 axios.get(
                   `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/images/${userId}`,
-                  {params: defaultParams}, 
+                  {params: defaultParams, headers}, 
                 )
                 .then(response => {
                   if(this.page == 1){

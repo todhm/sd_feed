@@ -85,6 +85,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                   this.metadata = item.metadata;
                   this.src = item.url;
                   this.imageId = item.id;
+                  item.total_clicks += 1;
                   this.addImageClick();
                   this.fetchComments();
                 },
@@ -96,11 +97,16 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 addImageClick(){
                   const userId = localStorage.getItem("userId");
                   const imageId = this.imageId;
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
                   axios.post(
                       'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/click',
                       {
                         userId,
                         imageId,
+                      },
+                      {
+                        headers
                       }
                       )
                   .then(response => {
@@ -112,13 +118,20 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 },
                 sendToTextToImage(){
                   const userId = localStorage.getItem("userId");
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
+
                   const imageId = this.imageId;
+                  this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
                   axios.post(
                       'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                       {
                         userId,
                         imageId,
                         sendType: "SEND_TO_TEXT",
+                      },
+                      {
+                        headers
                       }
                       )
                   .then(response => {
@@ -132,12 +145,17 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 copyClipboard(){
                   const userId = localStorage.getItem("userId");
                   const imageId = this.imageId;
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
                   axios.post(
                       'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                       {
                         userId,
                         imageId,
                         sendType: "COPY_TO_CLIPBOARD",
+                      },
+                      {
+                        headers
                       }
                       )
                   .then(response => {
@@ -147,6 +165,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                         filteredObject += `${k}:${v},`;
                       }
                     }
+                    this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
                     copyToClipboard(filteredObject);
                   }).catch(error => {
                       this.loading = false;
@@ -304,12 +323,17 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 sendToImageToImage(){
                   const userId = localStorage.getItem("userId");
                   const imageId = this.imageId;
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
                   axios.post(
                       'https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/send_to',
                       {
                         userId,
                         imageId,
                         sendType: "SEND_TO_IMAGE",
+                      },
+                      {
+                        headers
                       }
                       )
                   .then(response => {
@@ -325,6 +349,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     xhr.open('GET', this.src);
                     xhr.responseType = 'blob';
                     xhr.send();
+                    this.currentItem.total_sendto = this.currentItem.total_sendto + 1;
                     
                   }).catch(error => {
                       this.loading = false;
@@ -409,6 +434,8 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 },
                 addToWishList(item){
                     const userId = localStorage.getItem("userId");
+                    const token = localStorage.getItem("token");
+                    const headers={"Authorization":"Token " + token};
                     item.liked = true;
                     item.likecount = item.likecount + 1;
                     axios.post(
@@ -416,7 +443,10 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                       {
                         userId, 
                         imageId: item.id,
-                      }, 
+                      },
+                      {
+                        headers
+                      }
                     )
                 },
                 handleTextareaInput(event) {
@@ -430,12 +460,17 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                   const userId = localStorage.getItem("userId");
                   item.liked = false;
                   item.likecount = item.likecount -1 ;
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
                   axios.delete(
                     `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/like`,
-                    {data: {
-                      userId, 
-                      imageId: item.id,
-                    }}, 
+                    {
+                      data: {
+                        userId, 
+                        imageId: item.id,
+                      },
+                      headers
+                    }, 
                   )
                 },
                 makeSaveButtonVisible(){
@@ -451,17 +486,23 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 writeComment(){
                   if(this.comment.length > 0){
                     const userId = localStorage.getItem("userId");
+                    const token = localStorage.getItem("token");
+                    const headers={"Authorization":"Token " + token};
                     axios.post(
                       `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comment`,
                       {
                         userId, 
                         imageId: this.currentItem.id,
                         text: this.comment,
-                      }, 
+                      },
+                      {
+                        headers
+                      } 
                     ).then((res)=>{
                       this.fetchComments();
                       this.showCommentWrite = false;
                       this.comment = '';
+                      this.currentItem.total_comments = this.currentItem.total_comments + 1;
                     }).catch((e)=>{
                       console.log(e);
                     });
@@ -472,8 +513,13 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                 },
                 fetchComments(){
                   var self = this;
+                  const token = localStorage.getItem("token");
+                  const headers={"Authorization":"Token " + token};
                   axios.get(
                     `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/comments/${this.currentItem.id}`,
+                    {
+                      headers
+                    }
                   ).then((res)=>{
                     self.comments = res.data;
                   }).catch((e)=>{
@@ -488,8 +534,13 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
             },
             created() {
                 const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
                 axios.get(
                     `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/best/${userId}`,
+                    {
+                      headers
+                    }
                     )
                 .then(response => {
                     const dataObject = response.data;

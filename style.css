@@ -223,6 +223,8 @@ body {
   height: 32px;
   opacity: 0.8;
   background-color: rgba(0, 0, 0, 0.7);
+  display:flex;
+  align-items:center;
 }
 
 .item-overlay p {
@@ -239,7 +241,6 @@ body {
 }
 .liked-button-div{
   color: #FFFFFF !important;
-  position:absolute;
   font-size: var(--text-md);
   font-weight: var(--body-text-weight);
   left: 5px;
@@ -253,6 +254,7 @@ body {
   max-width:62px;
   height: 20px;
   border-radius: 2px;
+  margin-left:5px;
 }
 .liked-button-div button{
   color: #FFFFFF !important;

@@ -27,7 +27,7 @@ def dumper(obj):
             return str(obj)
     
 
-def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, info: Optional[str] = None):
+def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, info: Optional[str] = None, token: str = ''):
     try:
         if info:
             data_dict = return_string_dict(info)
@@ -123,7 +123,10 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
             files={
                 'upload_file': open(f'{DEFAULT_LOC}/temp.png', 'rb')
             },
-            stream=True
+            stream=True,
+            headers={
+                'Authorization': f'Token {token}'
+            }
         )
         os.remove(f'{DEFAULT_LOC}/temp.png')
     except Exception as e:
@@ -131,7 +134,7 @@ def create_image(img: Image, user_id: str, process: StableDiffusionProcessing, i
         pass
 
 
-def create_image_from_string(img_string: str, user_id: str):
+def create_image_from_string(img_string: str, user_id: str, token: str = ''):
     try:
         remove_image = False
         if img_string.startswith("http") or img_string.startswith("file="):
@@ -160,7 +163,10 @@ def create_image_from_string(img_string: str, user_id: str):
             files={
                 'upload_file': open(file_loc, 'rb')
             },
-            stream=True
+            stream=True,
+            headers={
+                'Authorization': f'Token {token}'
+            }
         )
         try:
             if remove_image:
@@ -174,7 +180,8 @@ def create_image_from_string(img_string: str, user_id: str):
 
 
 def create_image_to_image_file(
-    img_string: str, original_img_string: str, user_id: str
+    img_string: str, original_img_string: str, user_id: str,
+    token: str = ''
 ):
     try:
         remove_image = False
@@ -208,7 +215,10 @@ def create_image_to_image_file(
                 'upload_file': open(file_loc, 'rb'),
                 'img_to_img_file': open(origin_loc, 'rb')
             },
-            stream=True
+            stream=True,
+            headers={
+                'Authorization': f'Token {token}'
+            }
         )
         try:
             if remove_image:
@@ -222,7 +232,7 @@ def create_image_to_image_file(
         return False
 
 
-def create_image_from_img(img: Image, user_id: str, data_dict: Dict):
+def create_image_from_img(img: Image, user_id: str, data_dict: Dict, token: str = ''):
     try:
         file_loc = f'{DEFAULT_LOC}/temp.png'
         img.save(file_loc, "PNG", optimize=True)
@@ -236,7 +246,10 @@ def create_image_from_img(img: Image, user_id: str, data_dict: Dict):
             files={
                 'upload_file': open(file_loc, 'rb')
             },
-            stream=True
+            stream=True,
+            headers={
+                'Authorization': f'Token {token}'
+            }
         )
         os.remove(file_loc)
     except Exception as e:
@@ -247,7 +260,8 @@ def create_image_from_img(img: Image, user_id: str, data_dict: Dict):
 def create_multiple_file_uploads(
     data: List[_TemporaryFileWrapper]
 ):
-    user_id = create_user()
+    user_dict = create_user()
+    user_id = user_dict.get('userId')
     for d in data:
         try:
             image = Image.open(BytesIO(d))

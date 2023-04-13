@@ -20,12 +20,17 @@ waitForElementToDisplay(
                 },
                 saveNickname(){
                     const userId = localStorage.getItem("userId");
+                    const token = localStorage.getItem("token");
+                    const headers={"Authorization":"Token " + token};
                     axios.post(
                         `https://newtypev3-server-vjiloyvjvq-an.a.run.app/user/profile`,
                         {
                             userId,
                             nickname: this.nickname,
                         }, 
+                        {
+                            headers
+                        }
                       )
                       .then(response => {
                         this.editMode = false;        

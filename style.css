@@ -420,8 +420,7 @@ font-size: 14px;
   align-items: center;
   padding: 2px 3px;
   gap: 4px;
-  width: 57.6px;
-  max-width:62px;
+  width:100%;
   border-radius: 4.86585px;
 }
 .modal-writer-wrapper-exit{

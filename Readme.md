@@ -14,31 +14,27 @@
   and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features on txt2img tab and img2img tab.
 
 ### Introduction
-- You can upload your **masterpiece** on the Feed Tap. 
+- You can **upload** your masterpiece on the Feed Tap. 
 - You can press the recommend button on the photos created by others.
 - You can see **Pics Of The Day**(POTD) which is most recommended today. 
 - You can easily check the generation data of your favorite photos.
 - You can easily Send your favorite photos to t2i or i2i.
 
 ### Features
-#### Feed sharing: 
-Share your feed with the community and receive reputation based on the feedback you receive from other users.
+#### Upload Your Masterpiece! 
+Share your images with the community and receive reputation based on the feedback you receive from other users.
  <img  src="assets/feedsetting1.png" alt="Filter Images"/>
 
 
-#### Prompt browsing: 
+#### Browse images!: 
 Discover other people's feed and prompts to get inspired and engage with the community.
  <img  src="assets/pinterest.png" alt="Filter Images"/>
 
-#### Reputation system: 
+#### Be selected for Pics of the Day!(POTD)
 Earn reputation points based on the quality of your feed and your engagement with the community.
  <img  src="assets/potd.png" alt="Filter Images"/>
 
-#### User profiles: 
-Customize your profile with your nickname and bio to showcase your personality and style.
 
-#### User feedback: 
-Receive feedback from other users to improve your feed and grow your reputation.
 
 #### Getting Started
 To start using our WebUI Extension for Reputation-Based Feed Sharing, simply install the extension on your browser and create an account. You can then start uploading your feed and browsing other people's feed and prompts.

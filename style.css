@@ -326,7 +326,7 @@ font-size: 14px;
   align-items: center !important;
   justify-content: center !important;
 }
-.prompt-modal{
+.promptModal{
   position: fixed;
   z-index: 999;
   left: 0;

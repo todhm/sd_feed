@@ -44,8 +44,13 @@ waitForElementToDisplay(
             },
             created() {
                 const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
                 axios.get(
                     `https://newtypev3-server-vjiloyvjvq-an.a.run.app/user/profile/${userId}`,
+                    {
+                        headers
+                    }
                     )
                 .then(response => {
                     const dataObject = response.data;;

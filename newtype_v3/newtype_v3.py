@@ -21,6 +21,8 @@ loaded_count = 0
 
 base_dir = Path(scripts.basedir())
 all_btns: List[Tuple[gr.Button, ...]] = []
+share_image = False
+
 
 def set_share_image(x):
     global share_image

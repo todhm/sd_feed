@@ -352,12 +352,18 @@ font-size: 14px;
   height:100vh;
   justify-content: center;
   align-items:center;
+  margin-top:0px;
 }
 .prompt-modal-image img{
   max-width:720px;
   max-height:100vh;
 }
 @media screen and (max-width: 420px) { 
+  .prompt-modal-image{
+    margin-bottom: 0px;
+    height:100%;
+
+  }
   .prompt-modal-image img{
     height:60vh;
   }

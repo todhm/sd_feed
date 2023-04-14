@@ -65,7 +65,8 @@ We are constantly improving our extension based on user feedback, so please let 
 </div>
 
 ---
-
+### Exposed
+- Your uploaded image might be exposed to our promotion contents.
 
 
 ### Todo & Further Features. 
@@ -73,3 +74,6 @@ We are constantly improving our extension based on user feedback, so please let 
 - We want to support a image producers by adding a sponsor features to pouplar images. 
 - We also planned to extend community functions by adding comments on each functions. 
 - Any suggestions are welcomed. Please leave us your comments.
+
+
+

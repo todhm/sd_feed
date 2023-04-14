@@ -10,7 +10,7 @@ def on_ui_tabs():
     token = user_dict.get("token")
     script_html = f"""
         <script>window.localStorage.setItem("userId", "{userId}");</script>
-        <script>window.localStorage.setItem("userToken", "{token}");</script>
+        <script>window.localStorage.setItem("token", "{token}");</script>
     """
     iframe_html = (
         f"""<iframe style="width: 100%; height: 0px" srcdoc='{script_html}'>

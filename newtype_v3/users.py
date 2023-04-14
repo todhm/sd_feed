@@ -34,7 +34,6 @@ def create_user() -> Dict:
             json=user_dict
         )
         token = response.json().get('token')
-        print(token)
         user_dict['token'] = token
         with open(f'{DEFAULT_LOC}/user.json', 'w') as f:
             json.dump(user_dict, f, sort_keys=True, indent=4)

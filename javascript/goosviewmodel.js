@@ -40,8 +40,8 @@ const reorderData=(arr, columns)=>{
   return out;
 }
 
-addScript('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
-addScript('https://unpkg.com/vue@3.2.6/dist/vue.global.prod.js');
+// addScript('https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js');
+// addScript('https://unpkg.com/vue@3.2.6/dist/vue.global.prod.js');
 
 
 waitForElementToDisplay(

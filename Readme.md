@@ -65,7 +65,7 @@ We are constantly improving our extension based on user feedback, so please let 
 </div>
 
 ---
-### Exposed
+### Warning
 - Your uploaded image might be exposed to our promotion contents.
 
 

@@ -660,9 +660,12 @@ waitForElementToDisplay(
                 }else{
                   listElem = document.getElementsByTagName("gradio-app")[0].shadowRoot.getElementById("columns");
                 }
+                console.log(listElem);
+                console.log(listElem.clientHeight);
+                console.log(window.scrollY);
                 const tabElem = gradioApp().querySelector("#tab_newtype_tab");
                 const tabNotVisible = tabElem && tabElem.style && tabElem.style.display && tabElem.style.display == 'none';
-                if(listElem.clientHeight * 0.9 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
+                if(listElem.clientHeight * 0.8 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
                   self.page = self.page + 1;
                   self.fetchImages();
                 }

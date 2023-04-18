@@ -28,7 +28,7 @@
 ### Features
 #### Upload Your Masterpiece! 
  <img  src="assets/feedsetting1.png" alt="Filter Images"/>
- 
+
 Upload your image right after generation!
 
 ### Feed
@@ -65,7 +65,7 @@ We are constantly improving our extension based on user feedback, so please let 
 ---
 ### Warning
 - Your uploaded image might be exposed to our promotion contents.
-- It does not mean we will make a profit from your contents. There is possibility that your contents is exposed to outer space
+- It does not mean we will make a profit from your contents. There is possibility that other people might see your content indirectly when we trying to introduce our feed to other people.
 
 
 ### Todo & Further Features. 

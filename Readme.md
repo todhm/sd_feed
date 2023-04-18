@@ -6,6 +6,10 @@
 - This is a custom extension for AUTOMATIC1111/stable-diffusion-webui.
 - You can enjoy browsing from tab and getting reputation with your pictures
 
+
+
+   [![Watch the video](https://storage.googleapis.com/newtypev3/assets/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-04-18%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2012.13.25.png)](https://www.youtube.com/watch?v=VIDEO_ID)
+
 ### Installation
 - The extension can be installed directly from within the **Extension** tab within the Webui.
 - You can also install it manually by running the following command from within the webui directory:

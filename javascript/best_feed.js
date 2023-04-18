@@ -43,9 +43,9 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
               } finally {
                   textArea.remove();
               }
-          };
-      }
-        const userModel = {
+          }
+      };
+      const userModel = {
             data() {
                 return {
                     bestFeeds: [],

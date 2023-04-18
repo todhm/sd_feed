@@ -70,8 +70,8 @@ waitForElementToDisplay(
             } finally {
                 textArea.remove();
             }
-        };
-    }
+        }
+      };
         const imageModel = {
             data() {
                 return {

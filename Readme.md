@@ -4,6 +4,7 @@
  </p>
 
 - This is a custom extension for AUTOMATIC1111/stable-diffusion-webui.
+- You can enjoy browsing from tab and getting reputation with your pictures
 
 ### Installation
 - The extension can be installed directly from within the **Extension** tab within the Webui.
@@ -12,6 +13,10 @@
   git clone https://github.com/todhm/sd_feed.git
 
   and restart your stable-diffusion-webui, then you can see the new tab "Feed", and other features on txt2img tab and img2img tab.
+<p align="center">
+  <a href="" rel="noopener">
+ <img  src="assets/extensions.png" alt="Project logo"></a>
+</p>
 
 ### Introduction
 - You can **upload** your masterpiece on the Feed Tap. 
@@ -23,10 +28,12 @@
 ### Features
 #### Upload Your Masterpiece! 
  <img  src="assets/feedsetting1.png" alt="Filter Images"/>
+ 
 Upload your image right after generation!
 
 ### Feed
  <img  src="assets/5ulvww8bblta1.webp" alt="Filter Images"/>
+
 Browse People's images!
 
 there are four feeds
@@ -37,6 +44,7 @@ there are four feeds
 
 ### Tweak!
  <img  src="assets/lhijrt5lblta1.webp" alt="Filter Images"/>
+
 Check the parameters and generate your own!
 
 You can easily send to t2i,i2i or Copy the Generation data and also communicate!
@@ -53,20 +61,11 @@ To start using our WebUI Extension for Reputation-Based Feed Sharing, simply ins
 
 #### Feedback and Support
 We are constantly improving our extension based on user feedback, so please let us know if you have any suggestions or issues. You can contact us at 
-<p align="center">
-  <a href="" rel="noopener">
- <img  src="assets/extensions.png" alt="Project logo"></a>
-</p>
-
-
-<div align="center">
-
-
-</div>
 
 ---
 ### Warning
 - Your uploaded image might be exposed to our promotion contents.
+- It does not mean we will make a profit from your contents. There is possibility that your contents is exposed to outer space
 
 
 ### Todo & Further Features. 

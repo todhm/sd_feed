@@ -92,10 +92,32 @@ waitForElementToDisplay(
                     prompt: "",
                     showModal: false,
                     metadata: {},
-                    
+                    filterNsfw: false,
+                    animeTag: false,
+                    realTag: false,
                 }
             },
             methods: {
+            selectAnimeTag(){
+                if(this.animeTag == false){
+                    this.animeTag = true;
+                    this.realTag = false;
+                }else{
+                    this.animeTag = false;
+                    this.realTag = false;
+                }
+                this.fetchNewImage();
+            },
+            selectRealTag(){
+                if(this.realTag == false){
+                    this.realTag = true;
+                    this.animeTag = false;
+                }else{
+                    this.realTag = false;
+                    this.animeTag = false;
+                }
+                this.fetchNewImage();
+            },
               async uploadImage(event){
                 this.uploadLoading = true;
                 const files = event.target.files;
@@ -609,9 +631,16 @@ waitForElementToDisplay(
                   page: this.page,
                   batch_size: 100, 
                   prompt: this.prompt,
+                  filter_nsfw: this.filterNsfw,
                 };
                 if(this.mode == 'latest'){
                   defaultParams['order'] = 'created_at';
+                }
+                if(this.animeTag){
+                  defaultParams['image_tag'] = 'ANIME';
+                }
+                if(this.realTag){
+                  defaultParams['image_tag'] = 'REAL';
                 }
                 if(this.mode == 'likes'){
                   defaultParams['order'] = 'likes';
@@ -660,9 +689,6 @@ waitForElementToDisplay(
                 }else{
                   listElem = document.getElementsByTagName("gradio-app")[0].shadowRoot.getElementById("columns");
                 }
-                console.log(listElem);
-                console.log(listElem.clientHeight);
-                console.log(window.scrollY);
                 const tabElem = gradioApp().querySelector("#tab_newtype_tab");
                 const tabNotVisible = tabElem && tabElem.style && tabElem.style.display && tabElem.style.display == 'none';
                 if(listElem.clientHeight * 0.8 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
@@ -670,8 +696,6 @@ waitForElementToDisplay(
                   self.fetchImages();
                 }
               }, false);          
-                
-
               },1000,9000);
               
             },

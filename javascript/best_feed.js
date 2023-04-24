@@ -57,6 +57,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     imageId: "",
                     metadata: {},
                     currentItem: {},
+                    filterNsfw: false,
 
                 }
             },
@@ -68,6 +69,28 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     this.src = "";
                     this.comment = '';
                     this.comments = [];
+                },
+                fetchBests(){
+                  const token = localStorage.getItem("token");
+                  const userId = localStorage.getItem("userId");
+                  const headers={"Authorization":"Token " + token};
+                  const params = {
+                    filter_nsfw: this.filterNsfw,
+                  };
+                  axios.get(
+                        `https://newtypev3-server-vjiloyvjvq-an.a.run.app/image/best/${userId}`,
+                        {
+                          headers,
+                          params
+                        }
+                    )
+                    .then(response => {
+                        const dataObject = response.data;
+                        this.bestFeeds = dataObject.slice(0, 4);
+                    }).catch(error => {
+                        this.loading = false;
+                        console.log(error)
+                    });
                 },
                 formatNumber(num) {
                     if (num >= 1000000) {

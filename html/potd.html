@@ -1,6 +1,15 @@
 <div>
-    <div class="potd">
-        👑 POTD 👑
+    <div style="display: flex;justify-content: space-between;">
+        <div class="potd">
+            👑 POTD 👑
+        </div>
+        <div>
+            <label class="toggle-btn">
+                <span class="toggle-letter">Filter NSFW</span>
+                <input type="checkbox"  v-model="filterNsfw" @change="fetchBests">
+                <span class="slider round"></span>
+            </label>
+        </div>
     </div>
     <div class="product-slider" v-if="bestFeeds.length > 0">
         <div class="pinterest-gallery">

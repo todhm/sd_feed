@@ -14,6 +14,23 @@
     </div>
 </div>
 <div>
+    <div class="product-slider" style="display:flex;justify-content:center;">
+        <div class="page-max-width" style="display:flex;justify-content:flex-end;width:100%;margin-top:20px;">
+            <div style="display:flex;">
+                <button style="margin-right:20px;" @click="selectRealTag" class="tag-button" :class="{ 'tag-button-selected': realTag, 'tag-button-unselected': !realTag }">REAL</button>
+            </div>
+            <div style="display:flex;">
+                <button style="margin-right:100px;" @click="selectAnimeTag" class="tag-button" :class="{ 'tag-button-selected': animeTag, 'tag-button-unselected': !animeTag }">ILLUST</button>
+            </div>
+            <div>
+                <label class="toggle-btn">
+                    <span class="toggle-letter">Filter NSFW</span>
+                    <input type="checkbox"  v-model="filterNsfw" @change="fetchNewImage">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
     <div class="product-slider" v-if="imageList.length > 0">
         <div class="pinterest-column-gallery" id="columns">
             <div v-if="mode=='private'" class="pinterest-column-item">

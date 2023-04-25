@@ -343,7 +343,7 @@ font-size: 14px;
   flex-wrap: wrap;
 }
 .prompt-modal-image{
-	max-width: 720px;
+  max-width: calc(100% - 400px);
   margin: auto;
   flex-basis: 100%;
   background-size: cover;
@@ -362,6 +362,7 @@ font-size: 14px;
   .prompt-modal-image{
     margin-bottom: 0px;
     height:100%;
+    max-width:100%;
 
   }
   .prompt-modal-image img{

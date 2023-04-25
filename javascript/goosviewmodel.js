@@ -150,17 +150,23 @@ waitForElementToDisplay(
                 this.setMode('private');
                 this.uploadLoading = false;
               },
-              close() {
-                this.$emit('close');
-                this.showModal=false;
-              },
-              close() {
+            close() {
                 this.$emit('close');
                 this.showModal=false;
                 this.imageId = "";
                 this.src = "";
                 this.comment = '';
                 this.comments = [];
+            },
+            closeOutsideModal(event) {
+              if(!event.target.closest('.prompt-modal-image-tag')){
+                this.$emit('close');
+                this.showModal=false;
+                this.imageId = "";
+                this.src = "";
+                this.comment = '';
+                this.comments = [];
+              }
             },
             formatNumber(num) {
                 if (num >= 1000000) {

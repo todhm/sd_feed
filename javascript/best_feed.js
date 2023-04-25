@@ -70,6 +70,16 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     this.comment = '';
                     this.comments = [];
                 },
+                closeOutsideModal(event) {
+                  if(!event.target.closest('.prompt-modal-image-tag')){
+                    this.$emit('close');
+                    this.showModal=false;
+                    this.imageId = "";
+                    this.src = "";
+                    this.comment = '';
+                    this.comments = [];
+                  }
+                },
                 fetchBests(){
                   const token = localStorage.getItem("token");
                   const userId = localStorage.getItem("userId");

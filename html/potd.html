@@ -49,8 +49,8 @@
     </div>
     <div :class="{promptModal: showModal}" v-if="showModal">
         <div class="prompt-modal-page">
-            <div class="prompt-modal-image">
-                <img :src="src" alt="Pretty Image"/>
+            <div class="prompt-modal-image" @click="closeOutsideModal">
+                <img :src="src" alt="Pretty Image" class="prompt-modal-image-tag"/>
             </div>
             <div class="prompt-modal-sidebar">
                 <div class="modal-sidebar-header">

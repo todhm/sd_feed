@@ -97,6 +97,15 @@ waitForElementToDisplay(
                     realTag: false,
                 }
             },
+            watch: {
+              showModal() {   
+                if (this.showModal === false) {
+                  window.removeEventListener("keyup", this.onEscapeKey);
+                } else {
+                  window.addEventListener("keyup", this.onEscapeKey);
+                }
+              }
+            },
             methods: {
             selectAnimeTag(){
                 if(this.animeTag == false){
@@ -167,6 +176,13 @@ waitForElementToDisplay(
                 this.comment = '';
                 this.comments = [];
               }
+            },
+            onEscapeKey(event) {
+              if (event.keyCode === 27 || event.key === 'Escape') {
+                  // Perform action when "Esc" key is pressed
+                  this.close();
+              }
+              // Perform action when "Esc" key is pressed
             },
             formatNumber(num) {
                 if (num >= 1000000) {

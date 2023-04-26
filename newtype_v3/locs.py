@@ -5,4 +5,4 @@ is_exists_seconds = os.path.exists('/content/drive/MyDrive/SD/extensions/sd_feed
 if is_exists and is_exists_seconds:
     DEFAULT_LOC = '/content/drive/MyDrive/SD/extensions/sd_feed'
 else:
-    DEFAULT_LOC = 'extensions/sd_feed'
+    DEFAULT_LOC = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))

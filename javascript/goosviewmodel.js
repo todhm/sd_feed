@@ -689,12 +689,7 @@ waitForElementToDisplay(
               var self = this;
               waitForElementToDisplay('#columns', function(){
               window.addEventListener('scroll', e => {
-                let listElem;
-                if (document.querySelector('#columns') != undefined && document.querySelector('#columns') != null) {
-                  listElem = document.querySelector('#columns');
-                }else{
-                  listElem = document.getElementsByTagName("gradio-app")[0].shadowRoot.getElementById("columns");
-                }
+                const listElem = gradioApp().querySelector("#columns");
                 const tabElem = gradioApp().querySelector("#tab_newtype_tab");
                 const tabNotVisible = tabElem && tabElem.style && tabElem.style.display && tabElem.style.display == 'none';
                 if(listElem.clientHeight * 0.8 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {

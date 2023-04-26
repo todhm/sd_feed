@@ -1,4 +1,4 @@
-<div class="feed-tab-header" style="display:flex;width:100%;justify-content:space-between;">
+<div class="feed-tab-header" style="display:flex;width:100%;justify-content:space-between;" id="columns">
     <div class="feed-tab-class"> 
         <button
                 v-for="(item, index) in modeSelectList"
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="product-slider" v-if="imageList.length > 0">
-        <div class="pinterest-column-gallery" id="columns">
+        <div class="pinterest-column-gallery">
             <div v-if="mode=='private'" class="pinterest-column-item">
                 <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
                     <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">

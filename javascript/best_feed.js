@@ -1,7 +1,7 @@
 
 function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeoutInMs) {
     (function loopSearch() {
-      if (document.querySelector(selector) != null) {
+      if (document.querySelector(selector) != null && window.localStorage.getItem("userId")) {
         callback();
         return;
       }

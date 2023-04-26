@@ -45,7 +45,7 @@ const reorderData=(arr, columns)=>{
 
 
 waitForElementToDisplay(
-    "#vue-elem",
+    "#html_id",
     function(){
       async function copyToClipboard(textToCopy) {
         // Navigator clipboard api needs a secure context (https)

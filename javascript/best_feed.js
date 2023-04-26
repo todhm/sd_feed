@@ -18,7 +18,7 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
     })();
   }
   waitForElementToDisplay2(
-    "#best-product-tab",
+    "#html_id",
     function(){
         async function copyToClipboard(textToCopy) {
           // Navigator clipboard api needs a secure context (https)

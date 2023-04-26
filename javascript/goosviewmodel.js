@@ -687,7 +687,7 @@ waitForElementToDisplay(
             },
             mounted(){
               var self = this;
-              waitForElementToDisplay('#columns', function(){
+              waitForElementToDisplay('#feed-header', function(){
               window.addEventListener('scroll', e => {
                 const listElem = gradioApp().querySelector("#columns");
                 const tabElem = gradioApp().querySelector("#tab_newtype_tab");

@@ -86,7 +86,7 @@ waitForElementToDisplay(
                       { name: "Newest", value: "latest" },
                       { name: "Popular", value: "likes" },
                       { name: "Favorite", value: "favorite" },
-                      { name: "My Photos", value: "private" },
+                      { name: "My Feed", value: "private" },
                     ],
                     mode: "latest",
                     prompt: "",

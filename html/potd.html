@@ -19,29 +19,33 @@
                         <img :src="imageData.url">
                     </button>
                     <div class="item-overlay">
-                        <template v-if="!imageData.liked">
-                            <div class="liked-button-div not-liked-div" @click="addToWishList(imageData)">
-                                <button class="like-button">👍 {{formatNumber(imageData.likecount)}}</button>
+                        <div style="display:flex;align-items: center;height:100%;">
+                            <template v-if="!imageData.liked">
+                                <div class="liked-button-div not-liked-div" @click="addToWishList(imageData)">
+                                    <button class="like-button">👍 {{formatNumber(imageData.likecount)}}</button>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="liked-button-div already-liked-div" @click="deleteWishList(imageData)">
+                                    <button class="like-button already-liked-button">👍 {{formatNumber(imageData.likecount)}}</button>
+                                </div>
+                            </template>
+                            <div style="display: flex;justify-content: center;align-items: center;margin-left:5px;height:100%;">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="12" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="6d2be58645"><path d="M 2.515625 24 L 36.265625 24 L 36.265625 39 L 2.515625 39 Z M 2.515625 24 " clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 19.453125 0.21875 C 18.429688 0.21875 17.601562 1.054688 17.601562 2.085938 L 17.601562 22.101562 L 13.253906 17.730469 C 11.507812 16.023438 8.933594 18.601562 10.632812 20.367188 C 10.632812 20.367188 18.144531 27.925781 18.144531 27.925781 C 18.84375 28.65625 20.0625 28.632812 20.765625 27.925781 C 20.765625 27.925781 28.277344 20.367188 28.277344 20.367188 C 29.96875 18.605469 27.410156 16.023438 25.652344 17.730469 C 25.652344 17.730469 21.308594 22.101562 21.308594 22.101562 L 21.308594 2.085938 C 21.308594 1.054688 20.476562 0.21875 19.453125 0.21875 Z M 19.453125 0.21875 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#6d2be58645)"><path fill="#ffffff" d="M 4.433594 24.738281 C 3.410156 24.738281 2.578125 25.574219 2.578125 26.605469 L 2.578125 29.359375 C 2.578125 34.554688 6.78125 38.78125 11.945312 38.78125 L 26.964844 38.78125 C 32.128906 38.78125 36.328125 34.554688 36.328125 29.359375 L 36.328125 26.605469 C 36.328125 25.574219 35.5 24.738281 34.476562 24.738281 C 33.453125 24.738281 32.621094 25.574219 32.621094 26.605469 L 32.621094 29.359375 C 32.621094 32.496094 30.082031 35.050781 26.964844 35.050781 L 11.945312 35.050781 C 8.824219 35.050781 6.289062 32.496094 6.289062 29.359375 L 6.289062 26.605469 C 6.289062 25.574219 5.457031 24.738281 4.433594 24.738281 Z M 4.433594 24.738281 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
                             </div>
-                        </template>
-                        <template v-else>
-                            <div class="liked-button-div already-liked-div" @click="deleteWishList(imageData)">
-                                <button class="like-button already-liked-button">👍 {{formatNumber(imageData.likecount)}}</button>
+                            <div style="display:flex;justify-content: center;align-items: center;color:white;">
+                                {{formatNumber(imageData.total_sendto)}}
                             </div>
-                        </template>
-                        <div style="display: flex;justify-content: center;align-items: center;margin-left:5px;height:100%;">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="12" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="6d2be58645"><path d="M 2.515625 24 L 36.265625 24 L 36.265625 39 L 2.515625 39 Z M 2.515625 24 " clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 19.453125 0.21875 C 18.429688 0.21875 17.601562 1.054688 17.601562 2.085938 L 17.601562 22.101562 L 13.253906 17.730469 C 11.507812 16.023438 8.933594 18.601562 10.632812 20.367188 C 10.632812 20.367188 18.144531 27.925781 18.144531 27.925781 C 18.84375 28.65625 20.0625 28.632812 20.765625 27.925781 C 20.765625 27.925781 28.277344 20.367188 28.277344 20.367188 C 29.96875 18.605469 27.410156 16.023438 25.652344 17.730469 C 25.652344 17.730469 21.308594 22.101562 21.308594 22.101562 L 21.308594 2.085938 C 21.308594 1.054688 20.476562 0.21875 19.453125 0.21875 Z M 19.453125 0.21875 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#6d2be58645)"><path fill="#ffffff" d="M 4.433594 24.738281 C 3.410156 24.738281 2.578125 25.574219 2.578125 26.605469 L 2.578125 29.359375 C 2.578125 34.554688 6.78125 38.78125 11.945312 38.78125 L 26.964844 38.78125 C 32.128906 38.78125 36.328125 34.554688 36.328125 29.359375 L 36.328125 26.605469 C 36.328125 25.574219 35.5 24.738281 34.476562 24.738281 C 33.453125 24.738281 32.621094 25.574219 32.621094 26.605469 L 32.621094 29.359375 C 32.621094 32.496094 30.082031 35.050781 26.964844 35.050781 L 11.945312 35.050781 C 8.824219 35.050781 6.289062 32.496094 6.289062 29.359375 L 6.289062 26.605469 C 6.289062 25.574219 5.457031 24.738281 4.433594 24.738281 Z M 4.433594 24.738281 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                            <div style="display: flex;justify-content: center;align-items: center;margin-left:5px;height:100%;">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="20" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="ae37d71e45"><path d="M 5.074219 5.542969 L 33.574219 5.542969 L 33.574219 33.292969 L 5.074219 33.292969 Z M 5.074219 5.542969 " clip-rule="nonzero"/></clipPath></defs><g clip-path="url(#ae37d71e45)"><path fill="#ffffff" d="M 11.796875 33.273438 C 11.722656 33.273438 11.648438 33.253906 11.582031 33.21875 C 11.4375 33.136719 11.347656 32.988281 11.347656 32.820312 L 11.347656 28.015625 L 9.152344 28.015625 C 6.902344 28.015625 5.074219 26.171875 5.074219 23.90625 L 5.074219 9.671875 C 5.074219 7.410156 6.902344 5.566406 9.152344 5.566406 L 29.492188 5.566406 C 31.742188 5.566406 33.570312 7.410156 33.570312 9.671875 L 33.570312 23.90625 C 33.570312 26.171875 31.742188 28.015625 29.492188 28.015625 L 20.226562 28.015625 C 17.496094 29.746094 14.765625 31.472656 12.035156 33.203125 C 11.964844 33.25 11.878906 33.273438 11.796875 33.273438 Z M 11.796875 33.273438 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                            </div>
+                            <div style="display:flex;justify-content: center;align-items: center;color:white;">
+                                {{formatNumber(imageData.total_comments)}}
+                            </div>
                         </div>
-                        <div style="display:flex;justify-content: center;align-items: center;color:white;">
-                            {{formatNumber(imageData.total_sendto)}}
+                        <div style="display:flex;align-items:center;">
+                            <a href="javascript:void(0);" target="_self"  @click="moveFeedProfileTab(imageData.nickname)" class="item-author">by {{imageData.nickname}}</a>
                         </div>
-                        <div style="display: flex;justify-content: center;align-items: center;margin-left:5px;height:100%;">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="20" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="ae37d71e45"><path d="M 5.074219 5.542969 L 33.574219 5.542969 L 33.574219 33.292969 L 5.074219 33.292969 Z M 5.074219 5.542969 " clip-rule="nonzero"/></clipPath></defs><g clip-path="url(#ae37d71e45)"><path fill="#ffffff" d="M 11.796875 33.273438 C 11.722656 33.273438 11.648438 33.253906 11.582031 33.21875 C 11.4375 33.136719 11.347656 32.988281 11.347656 32.820312 L 11.347656 28.015625 L 9.152344 28.015625 C 6.902344 28.015625 5.074219 26.171875 5.074219 23.90625 L 5.074219 9.671875 C 5.074219 7.410156 6.902344 5.566406 9.152344 5.566406 L 29.492188 5.566406 C 31.742188 5.566406 33.570312 7.410156 33.570312 9.671875 L 33.570312 23.90625 C 33.570312 26.171875 31.742188 28.015625 29.492188 28.015625 L 20.226562 28.015625 C 17.496094 29.746094 14.765625 31.472656 12.035156 33.203125 C 11.964844 33.25 11.878906 33.273438 11.796875 33.273438 Z M 11.796875 33.273438 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
-                        </div>
-                        <div style="display:flex;justify-content: center;align-items: center;color:white;">
-                            {{formatNumber(imageData.total_comments)}}
-                        </div>
-                        <p class="item-author">by {{imageData.nickname}}</p>
                     </div>
                 </div>
             </template>
@@ -68,7 +72,7 @@
                             </template>
                         </div>
                         <div class="modal-writer-wrappers">
-                            <div class="modal-writer">By {{currentItem.nickname}}</div>
+                            <a class="modal-writer" href="javascript:void(0);" target="_self" @click="(e)=>moveFeedProfileTab(e,currentItem.nickname)">By {{currentItem.nickname}}</a>
                             <div class="modal-writer-time">{{currentItem.created_at}}</div>
                         </div>
                     </div>

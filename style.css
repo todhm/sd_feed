@@ -9,7 +9,21 @@ body {
   margin: 50px auto;
   column-gap: 4px;
 }
+.page-max-width{
+  max-width: 1100px !important;
+  width:100%;
+}
+.private-upload{
+  width:25%;
+}
+.item-author{
+  color:white !important;
+}
 @media screen and  (max-width: 820px){ 
+  .private-upload{
+    width:100%;
+    max-width:420px;
+  }
   #columns {
     column-count: 2 !important;
   }
@@ -235,6 +249,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   display:flex;
   align-items:center;
+  justify-content: space-between;
 }
 
 .item-overlay p {
@@ -416,6 +431,17 @@ font-size: 14px;
   border: 1px solid white;
   border-radius: 5px !important;
   background-color: #AFB6BD !important;
+  resize: none !important;
+  overflow: hidden !important;
+  padding: 10px !important;
+  width: 95% !important;
+  min-height: 39.35px !important;
+  transition: height 0.3s ease-in-out !important;
+  margin: 10px !important;
+}
+.profile-writer-type{
+  border: 1px solid white;
+  border-radius: 5px !important;
   resize: none !important;
   overflow: hidden !important;
   padding: 10px !important;

@@ -95,7 +95,27 @@ waitForElementToDisplay(
                     filterNsfw: false,
                     animeTag: false,
                     realTag: false,
+                    nickname: '',
+                    profile: '',
+                    editMode: false,
+                    userId: '',
+                    searchNickname: "",
+                    searchProfile: "",
                 }
+            },
+            computed: {
+              parsedProfile(){
+                if(!this.profile){
+                  return this.profile;
+                }
+                return this.profile.replaceAll("\n", "<br/>");
+              },
+              parsedSearchProfile(){
+                if(!this.searchProfile){
+                  return '';
+                }
+                return this.searchProfile.replaceAll("\n", "<br/>");
+              }
             },
             watch: {
               showModal() {   
@@ -107,6 +127,64 @@ waitForElementToDisplay(
               }
             },
             methods: {
+            setEditMode(){
+                this.editMode = !this.editMode;
+            },
+            setNicknameSearch(){
+              this.mode = 'nicknameSearch';
+              const feedUserButton = gradioApp().querySelector('#feed-user-tab');
+              const nickname = feedUserButton.getAttribute("data-value");
+              this.searchNickname = nickname;
+              this.fetchSearchProfile();
+              this.fetchNewImage();
+            },
+            moveFeedProfileTab(nickname){
+              if(nickname){
+                this.close();
+                const buttonList = gradioApp().querySelector('#tabs').querySelectorAll('button');
+                for (step = 0; step < buttonList.length; step++) {
+                  // Runs 5 times, with values of step 0 through 4.
+                  if(buttonList[step].textContent.trim() == 'Feed'){
+                    buttonList[step].click();
+                    break;
+                  }
+                }
+                try{
+                  const feedUserButton = gradioApp().querySelector('#feed-user-tab');
+                  feedUserButton.setAttribute("data-value", nickname);
+                  feedUserButton.innerHTML = nickname;
+                  feedUserButton.click();
+                  
+                }catch(e){
+                  console.log(e);
+                }
+                
+              }
+              
+            },
+            saveNickname(){
+                const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
+                const headers={"Authorization":"Token " + token};
+                axios.post(
+                    `https://newtypev3-server-vjiloyvjvq-an.a.run.app/user/profile`,
+                    {
+                        userId,
+                        nickname: this.nickname,
+                        profile: this.profile,
+                    }, 
+                    {
+                        headers
+                    }
+                  )
+                  .then(response => {
+                    this.editMode = false;        
+                  })
+                  .catch(error => {
+                    this.loading = false;
+                    alert(error.response.data.detail);
+                  })
+            },
             selectAnimeTag(){
                 if(this.animeTag == false){
                     this.animeTag = true;
@@ -638,6 +716,22 @@ waitForElementToDisplay(
                 this.mode = mode;
                 this.fetchImages();
               },
+              fetchSearchProfile(){
+                const params = {
+                  nickname: this.searchNickname,
+                };
+                axios.get(
+                  `https://newtypev3-server-vjiloyvjvq-an.a.run.app/user/profile_nickname`,
+                  {
+                    params
+                  }
+                ).then((res)=>{
+                  this.searchProfile = res.data.profile;
+                  this.$forceUpdate();
+                }).catch((e)=>{
+                  console.log(e);
+                })
+              },
               fetchNewImage(){
                 this.page = 1;
                 this.fetchImages();
@@ -656,6 +750,10 @@ waitForElementToDisplay(
                   filter_nsfw: this.filterNsfw,
                 };
                 if(this.mode == 'latest'){
+                  defaultParams['order'] = 'created_at';
+                }
+                if(this.mode == 'nicknameSearch'){
+                  defaultParams['nickname'] = this.searchNickname;
                   defaultParams['order'] = 'created_at';
                 }
                 if(this.animeTag){
@@ -708,7 +806,7 @@ waitForElementToDisplay(
                 const listElem = gradioApp().querySelector("#columns");
                 const tabElem = gradioApp().querySelector("#tab_newtype_tab");
                 const tabNotVisible = tabElem && tabElem.style && tabElem.style.display && tabElem.style.display == 'none';
-                if(listElem.clientHeight * 0.8 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
+                if(listElem&&listElem.clientHeight * 0.8 <= window.scrollY  && self.loading == false && self.page > 0 && !tabNotVisible) {
                   self.page = self.page + 1;
                   self.fetchImages();
                 }
@@ -721,6 +819,25 @@ waitForElementToDisplay(
             },
             created() {
               this.fetchImages();
+              const userId = localStorage.getItem("userId");
+              const token = localStorage.getItem("token");
+              const headers={"Authorization":"Token " + token};
+              axios.get(
+                  `https://newtypev3-server-vjiloyvjvq-an.a.run.app/user/profile/${userId}`,
+                  {
+                      headers
+                  }
+                  )
+              .then(response => {
+                  const dataObject = response.data;;
+                  this.likeCount = dataObject.likecount; 
+                  this.nickname = dataObject.nickname; 
+                  this.profile = dataObject.profile;
+                  this.userId = userId;
+              }).catch(error => {
+                  this.loading = false;
+                  console.log(error)
+              })
             },
         };
         const fetchApp =  Vue.createApp(imageModel);

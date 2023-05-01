@@ -80,6 +80,31 @@ function waitForElementToDisplay2(selector, callback, checkFrequencyInMs, timeou
                     this.comment = '';
                     this.comments = [];
                 },
+                moveFeedProfileTab(event, nickname){
+                  event.preventDefault();
+                  if(nickname){
+                    this.close();
+                    const buttonList = gradioApp().querySelector('#tabs').querySelectorAll('button');
+                    for (step = 0; step < buttonList.length; step++) {
+                      // Runs 5 times, with values of step 0 through 4.
+                      if(buttonList[step].textContent.trim() == 'Feed'){
+                        buttonList[step].click();
+                        break;
+                      }
+                    }
+                    try{
+                      const feedUserButton = gradioApp().querySelector('#feed-user-tab');
+                      feedUserButton.setAttribute("data-value", nickname);
+                      feedUserButton.innerHTML = nickname;
+                      feedUserButton.click();
+                      
+                    }catch(e){
+                      console.log(e);
+                    }
+                    
+                  }
+                  
+                },
                 closeOutsideModal(event) {
                   if(!event.target.closest('.prompt-modal-image-tag')){
                     this.$emit('close');

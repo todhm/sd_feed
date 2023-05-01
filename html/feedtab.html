@@ -7,6 +7,12 @@
                 :class="{ 'selected' : item.value === mode}"
                 @click="setMode(item.value)"
             >{{ item.name }}</button>
+        <button
+            class="feed-tab-default"
+            :class="{ 'selected' : mode === 'nicknameSearch'}"
+            id="feed-user-tab"
+            @click="setNicknameSearch">
+        </button>
     </div>
     <div class="feed-tab-class-search">
         <input id="prompt-input" type="text" v-model="prompt"  @keyup.enter="fetchNewImage" style="margin-right:5px;">
@@ -15,7 +21,7 @@
 </div>
 <div>
     <div class="product-slider" style="display:flex;justify-content:center;">
-        <div class="page-max-width" style="display:flex;justify-content:flex-end;width:100%;margin-top:20px;">
+        <div style="display:flex;justify-content:flex-end;width:100%;margin-top:20px;">
             <div style="display:flex;">
                 <button style="margin-right:20px;" @click="selectRealTag" class="tag-button" :class="{ 'tag-button-selected': realTag, 'tag-button-unselected': !realTag }">REAL</button>
             </div>
@@ -28,6 +34,97 @@
                     <input type="checkbox"  v-model="filterNsfw" @change="fetchNewImage">
                     <span class="slider round"></span>
                 </label>
+            </div>
+        </div>
+    </div>
+    <div class="product-slider" style="display:flex;justify-content:center;" v-if="mode=='nicknameSearch'">
+        <div class="page-max-width">
+            <div style="max-width:100%;display:flex;align-items: start;">
+                <div style="margin-left:37px;margin-right:37px;margin-bottom:37px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="160" preserveAspectRatio="xMidYMid meet" version="1.0"><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><path fill="#000000" d="M 33.289062 5.710938 C 29.605469 2.027344 24.707031 0 19.5 0 C 14.292969 0 9.394531 2.027344 5.710938 5.710938 C 2.027344 9.394531 0 14.292969 0 19.5 C 0 24.707031 2.027344 29.605469 5.710938 33.289062 C 9.394531 36.972656 14.292969 39 19.5 39 C 24.707031 39 29.605469 36.972656 33.289062 33.289062 C 36.972656 29.605469 39 24.707031 39 19.5 C 39 14.292969 36.972656 9.394531 33.289062 5.710938 Z M 6.597656 6.597656 C 10.042969 3.148438 14.625 1.25 19.5 1.25 C 24.375 1.25 28.957031 3.148438 32.402344 6.597656 C 35.851562 10.042969 37.746094 14.625 37.746094 19.5 C 37.746094 23.550781 36.433594 27.402344 34.011719 30.566406 C 32.085938 27.871094 29.007812 26.277344 25.664062 26.277344 L 13.335938 26.277344 C 9.992188 26.277344 6.914062 27.871094 4.988281 30.566406 C 2.5625 27.402344 1.25 23.550781 1.25 19.5 C 1.25 14.625 3.148438 10.042969 6.597656 6.597656 Z M 19.5 25.25 C 24.507812 25.25 28.585938 21.171875 28.585938 16.164062 C 28.585938 11.152344 24.507812 7.078125 19.5 7.078125 C 14.488281 7.078125 10.414062 11.152344 10.414062 16.164062 C 10.414062 21.171875 14.488281 25.25 19.5 25.25 Z M 19.5 25.25 " fill-opacity="1" fill-rule="nonzero"/></svg>
+                </div>
+                <div>
+                    <div style="display:flex;align-items:center;">
+                        <div style="padding: 10px; border-radius: 5px; display:flex;align-items:center;">
+                            <p style="line-height:normal;line-height:0;font-size: 25px;font-weight: 800;margin-right: 10px;">By.</p>
+                            <p style="line-height: 0;font-size: 20px;margin-right: 10p;">{{searchNickname}}</p>
+                        </div>
+                    </div>
+                    <div v-html="parsedSearchProfile" style="padding: 10px; border-radius: 5px; display:flex;align-items:center;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-slider" style="display:flex;justify-content:center;" v-if="mode=='private'">
+        <div class="page-max-width">
+            <div style="max-width:100%;display:flex;align-items: start;">
+                <div style="margin-left:37px;margin-right:37px;margin-bottom:37px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" zoomAndPan="magnify" viewBox="0 0 39 38.999999" height="160" preserveAspectRatio="xMidYMid meet" version="1.0"><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><rect x="-3.9" width="46.8" fill="#ffffff" y="-3.9" height="46.799999" fill-opacity="1"/><path fill="#000000" d="M 33.289062 5.710938 C 29.605469 2.027344 24.707031 0 19.5 0 C 14.292969 0 9.394531 2.027344 5.710938 5.710938 C 2.027344 9.394531 0 14.292969 0 19.5 C 0 24.707031 2.027344 29.605469 5.710938 33.289062 C 9.394531 36.972656 14.292969 39 19.5 39 C 24.707031 39 29.605469 36.972656 33.289062 33.289062 C 36.972656 29.605469 39 24.707031 39 19.5 C 39 14.292969 36.972656 9.394531 33.289062 5.710938 Z M 6.597656 6.597656 C 10.042969 3.148438 14.625 1.25 19.5 1.25 C 24.375 1.25 28.957031 3.148438 32.402344 6.597656 C 35.851562 10.042969 37.746094 14.625 37.746094 19.5 C 37.746094 23.550781 36.433594 27.402344 34.011719 30.566406 C 32.085938 27.871094 29.007812 26.277344 25.664062 26.277344 L 13.335938 26.277344 C 9.992188 26.277344 6.914062 27.871094 4.988281 30.566406 C 2.5625 27.402344 1.25 23.550781 1.25 19.5 C 1.25 14.625 3.148438 10.042969 6.597656 6.597656 Z M 19.5 25.25 C 24.507812 25.25 28.585938 21.171875 28.585938 16.164062 C 28.585938 11.152344 24.507812 7.078125 19.5 7.078125 C 14.488281 7.078125 10.414062 11.152344 10.414062 16.164062 C 10.414062 21.171875 14.488281 25.25 19.5 25.25 Z M 19.5 25.25 " fill-opacity="1" fill-rule="nonzero"/></svg>
+                </div>
+                <template v-if="!editMode">
+                    <div>
+                        <div style="display:flex;align-items:center;">
+                            <div style="padding: 10px; border-radius: 5px; display:flex;align-items:center;">
+                                <p style="line-height:normal;line-height:0;font-size: 25px;font-weight: 800;margin-right: 10px;">By.</p>
+                                <p style="line-height: 0;font-size: 20px;margin-right: 10p;">{{nickname}}</p>
+                            </div>
+                            <button @click="setEditMode" style="width:24px;height:24px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                            </button>
+                        </div>
+                        <div style="padding: 10px; border-radius: 5px; display:flex;align-items:center;" v-html="parsedProfile">
+                        </div>
+                        <div style="padding: 10px; border-radius: 5px; display:flex;align-items:center;">
+                            If you have any question or want to modify your data contact us at Discord: #Zag5956
+                        </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <div style="width:100%;">
+                        <div style="width:100%;">
+                    <input  style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;" type="text" v-model="nickname">
+                    <button  style="width:24px;height:24px;margin-right:15px;margin-left:15px;" @click="saveNickname">💾</button>
+                    <button style="width:24px;height:24px;" @click="setEditMode">
+                        ✖️
+                    </button>
+                    </div>
+                    <div style="width:100%;">
+                        <textarea v-model="profile" @input="handleTextareaInput" id="profile-writer-type" class="profile-writer-type" placeholder="Type your profile"></textarea>
+                    </div>
+                    </div>
+                </template>
+            </div>
+            <div style="display:flex;justify-content:center;" v-if="imageList.length == 0 & mode=='private'" class="private-upload">
+                <div style="width:100%;">
+                    <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
+                        <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                            <div style="background-color:white;width:80%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
+                                <div v-if="!loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">
+                                        Please Upload Image
+                                    </div>
+                                    <div style="color:#AFB6BD;font-size:15px;display:flex;justify-content:center;">-or-</div>
+                                    <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">Click and upload</div>
+                                </div>
+                                <div v-if="loading">
+                                    <div style="color:#AFB6BD;font-size:18px;display:center;justify-content:center;">
+                                        Loading Image...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input
+                        id="image-input-file"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        style="display:none;"
+                        @change="uploadImage"
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -101,41 +198,13 @@
                             {{formatNumber(imageData.total_comments)}}
                         </div>
                     </div>
-                    <p class="item-author">by {{imageData.nickname}}</p>
+                    <div style="display:flex;align-items:center;">
+                        <a class="item-author" @click="moveFeedProfileTab(imageData.nickname)" href="javascript:void(0);">by {{imageData.nickname}}</a>
+                    </div>
                 </div>
             </template>
         </div>
     </div>
-     <div style="display:flex;justify-content:center;max-width:420px;" v-if="imageList.length == 0 & mode=='private'">
-            <div style="width:100%;">
-                <label for="image-input-file" style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;">
-                    <div style="background-color:#AFB6BD;width:100%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
-                        <div style="background-color:white;width:80%;aspect-ratio:1/1;display:flex; align-items:center;justify-content:center;">
-                            <div v-if="!loading">
-                                <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">
-                                    Please Upload Image
-                                </div>
-                                <div style="color:#AFB6BD;font-size:15px;display:flex;justify-content:center;">-or-</div>
-                                <div style="color:#AFB6BD;font-size:18px;display:flex;justify-content:center;">Click and upload</div>
-                            </div>
-                            <div v-if="loading">
-                                <div style="color:#AFB6BD;font-size:18px;display:center;justify-content:center;">
-                                    Loading Image...
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </label>
-                <input
-                    id="image-input-file"
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    style="display:none;"
-                    @change="uploadImage"
-                >
-            </div>
-     </div>
 </div>
 <template v-if="this.showModal">
     <div class="promptModal">
@@ -159,7 +228,7 @@
                             </template>
                         </div>
                         <div class="modal-writer-wrappers">
-                            <div class="modal-writer">By {{currentItem.nickname}}</div>
+                            <a href="javascript:void(0);" @click="moveFeedProfileTab(currentItem.nickname)"  class="modal-writer">By {{currentItem.nickname}}</a>
                             <div class="modal-writer-time">{{currentItem.created_at}}</div>
                         </div>
                     </div>
@@ -180,7 +249,7 @@
                         <div v-if="showCommentWrite" class="write-row-button">
                             <button class="btn-write-row btn-cancel" @click="hideSaveButtonVisible">Cancel</button>
                             <button class="btn-write-row btn-save" @click="writeComment()">Comment</button>
-/                                         </div>
+                                         </div>
                     </div>
                 </div>
                 <div style="margin-top:10px;border-bottom: 1px solid #AFB6BD;padding-bottom:17px;">

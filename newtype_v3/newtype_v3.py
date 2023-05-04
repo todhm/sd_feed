@@ -13,7 +13,7 @@ from modules import shared
 
 from newtype_v3.locs import DEFAULT_LOC
 from newtype_v3.lora import search_lora_list
-from .users import create_user
+from .users import create_user, create_user_headers
 from .images import (
     create_image, create_image_from_string, create_image_to_image_file
 )
@@ -61,7 +61,17 @@ def download_lora(link, fname):
     response = requests.get(link)
     with open(f'{shared.cmd_opts.lora_dir}/{fname}', 'wb') as f:
         f.write(response.content)
-    # urllib.request.urlretrieve(link, f'{models_path}/{fname}')
+    try:
+        headers, user_dict = create_user_headers()
+        _ = requests.post(
+            'https://newtypev3-server-vjiloyvjvq-an.a.run.app/lora/download',
+            json={
+                'userId': user_dict.get("userId")
+            },
+            headers=headers
+        )
+    except Exception:
+        pass
     return ["Success"]
 
 

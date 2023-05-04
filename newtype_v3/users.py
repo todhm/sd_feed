@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Dict, Tuple
 import uuid
 import requests
 from newtype_v3.locs import DEFAULT_LOC
@@ -38,3 +38,11 @@ def create_user() -> Dict:
         with open(f'{DEFAULT_LOC}/user.json', 'w') as f:
             json.dump(user_dict, f, sort_keys=True, indent=4)
         return user_dict
+
+
+def create_user_headers() -> Tuple[Dict, Dict]:
+    user_dict = create_user()
+    headers = {
+        "Authorization": f"Token {user_dict['token']}",
+    }
+    return headers, user_dict

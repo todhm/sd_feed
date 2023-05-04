@@ -2,6 +2,7 @@ import re
 import traceback
 from typing import List, Dict
 import requests
+from newtype_v3.users import create_user_headers
 
 
 def lora_string_list(prompt: str) -> List[str]:
@@ -16,11 +17,14 @@ def search_lora_list(lora_string: str) -> List[Dict]:
         if type(lora_string) is not str:
             lora_string = lora_string[0]
         lora_list = lora_string_list(lora_string)
+        headers, user_dict = create_user_headers()
         result_list = requests.post(
             'https://newtypev3-server-vjiloyvjvq-an.a.run.app/lora/loras',
             json={
                 'loraList': lora_list,
+                'userId': user_dict.get("userId")
             },
+            headers=headers
         )
         result = result_list.json()
         if type(result) is list:

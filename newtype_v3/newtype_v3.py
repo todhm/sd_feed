@@ -12,7 +12,8 @@ from modules.script_callbacks import ImageSaveParams
 from modules import shared
 
 from newtype_v3.locs import DEFAULT_LOC
-from newtype_v3.lora import search_lora_list
+from newtype_v3.lora import search_lora_list, lora_string_list
+from . import lora_types
 from .users import create_user, create_user_headers
 from .images import (
     create_image, create_image_from_string, create_image_to_image_file
@@ -29,13 +30,35 @@ share_image = False
 
 
 def search_lora(prompt: str) -> List[str]:
+    if type(prompt) is not str:
+        prompt = prompt[0]
+    search_list = lora_string_list(prompt)
     try:
-        list_of_dict = search_lora_list(prompt)
+        list_of_dict = search_lora_list(search_list)
     except Exception:
         list_of_dict = []
     fname_list = os.listdir(shared.cmd_opts.lora_dir)
+    fname_text_list = [
+        x.replace(".safetensors", '').replace('.ckpt', '').replace(".pt", '') 
+        for x in fname_list
+    ]
+    not_found_list = [{
+        'fileName': x,
+        'downloadUrl': '',
+        'status': lora_types.NOT_FOUND
+    } for x in search_list 
+        if x.replace(".safetensor", '').replace('.ckpt', '').replace(".pt", '') 
+        not in fname_text_list
+    ]
     list_of_dict = list(filter(lambda x: x.get('fileName') not in fname_list, list_of_dict))
-    return list_of_dict
+    list_of_dict = [
+        {
+            'fileName': x.get('fileName'), 'downloadUrl': x.get('downloadUrl'),
+            'status': lora_types.SAME,
+        } 
+        for x in list_of_dict
+    ]
+    return list_of_dict + not_found_list
 
 
 def set_share_image(x):

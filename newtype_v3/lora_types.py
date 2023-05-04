@@ -1,0 +1,7 @@
+
+
+SIMILAR: str = "SIMILAR"
+SAME: str = "SAME"
+NOT_FOUND: str = "NOT_FOUND"
+ALREADY_EXISTS: str = "ALREADY_EXSITS"
+

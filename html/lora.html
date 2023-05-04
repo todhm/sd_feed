@@ -10,7 +10,12 @@
             <template v-for="(loraData, j) in loraList" :key="j">
                 <tr>
                     <td>{{loraData.fileName}}</td>
-                    <td><button @click="setUrlData(loraData.downloadUrl, loraData.fileName)">Download</button></td>
+                    <template v-if="loraData.downloadUrl != ''">
+                        <td><button @click="setUrlData(loraData.downloadUrl, loraData.fileName)">Download</button></td>
+                    </template>
+                    <template v-else>
+                        <td>Not Found</td>
+                    </template>
                 </tr>
             </template>
 

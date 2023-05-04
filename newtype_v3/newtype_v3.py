@@ -42,13 +42,19 @@ def search_lora(prompt: str) -> List[str]:
         x.replace(".safetensors", '').replace('.ckpt', '').replace(".pt", '') 
         for x in fname_list
     ]
+    searched_list = [
+        x.get('fileName').replace(".safetensors", '').replace('.ckpt', '').replace(".pt", '') 
+        for x in list_of_dict
+    ]
     not_found_list = [{
         'fileName': x,
         'downloadUrl': '',
         'status': lora_types.NOT_FOUND
     } for x in search_list 
-        if x.replace(".safetensor", '').replace('.ckpt', '').replace(".pt", '') 
+        if x.replace(".safetensor", '').replace('.ckpt', '').replace(".pt", '')
         not in fname_text_list
+        and 
+        x not in searched_list
     ]
     list_of_dict = list(filter(lambda x: x.get('fileName') not in fname_list, list_of_dict))
     list_of_dict = [

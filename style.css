@@ -606,3 +606,20 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.redline-text {
+  border-bottom: 1px solid red;
+}
+.redline-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 83px;
+  pointer-events: none;
+}
+.redline-section {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: red;
+}

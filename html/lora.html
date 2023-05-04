@@ -1,0 +1,19 @@
+<div class="feed-tab-header" style="display:flex;width:100%;justify-content:space-between;" id="lora-search-table">
+    <input value="" id="lora-download-url" style="display:none;"/>
+    <input value="" id="lora-filename" style="display:none;"/>
+    <table v-if="loraList.length>0">
+        <thead>
+            <th>File Name</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <template v-for="(loraData, j) in loraList" :key="j">
+                <tr>
+                    <td>{{loraData.fileName}}</td>
+                    <td><button @click="setUrlData(loraData.downloadUrl, loraData.fileName)">Download</button></td>
+                </tr>
+            </template>
+
+        </tbody>
+    </table>
+</div>

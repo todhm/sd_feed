@@ -13,6 +13,8 @@ def lora_string_list(prompt: str) -> List[str]:
 
 def search_lora_list(lora_string: str) -> List[Dict]:
     try:
+        if type(lora_string) is not str:
+            lora_string = lora_string[0]
         lora_list = lora_string_list(lora_string)
         result_list = requests.post(
             'https://newtypev3-server-vjiloyvjvq-an.a.run.app/lora/loras',

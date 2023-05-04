@@ -1,10 +1,10 @@
-var loaded = {};
+var installLoaded = {};
 function addScript(url) {
-    if (!loaded[url]) {
+    if (!installLoaded[url]) {
         var s = document.createElement('script');
         s.src = url;
         document.head.appendChild(s);
-        loaded[url] = true;
+        installLoaded[url] = true;
     }
 }
 function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeoutInMs) {
